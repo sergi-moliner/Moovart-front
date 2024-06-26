@@ -1,0 +1,28 @@
+.register-container, .login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: linear-gradient(45deg, #bbacac, #fff8e1);
+}
+
+.register-card, .login-card {
+  width: 100%;
+  max-width: 500px;
+  padding: 2rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  background-color: #faf7eb; // Beige
+}
+
+.full-width {
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+mat-card-title {
+  text-align: center;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: #b71c1c; // Carmín
+}

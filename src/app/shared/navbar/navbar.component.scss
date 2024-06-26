@@ -1,0 +1,57 @@
+mat-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #b71c1c;
+  color: white;
+
+
+  .logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: inherit;
+    text-decoration: underline;
+    color: black;
+  }
+
+  .spacer {
+    flex: 1;
+  }
+
+  .nav-items {
+    display: flex;
+    align-items: center;
+
+    button {
+      margin-left: 1rem;
+    }
+  }
+
+  .mobile-menu-button {
+    display: none;
+  }
+}
+
+/* Estilos responsivos */
+@media (max-width: 768px) {
+  .nav-items {
+    display: none; /* Oculta las opciones de navegación en móvil */
+  }
+
+  .mobile-menu-button {
+    display: inline-flex; /* Muestra el botón de menú en móvil */
+  }
+
+  mat-toolbar {
+    .spacer {
+      display: none; /* Oculta el espaciador en móvil */
+    }
+  }
+}
+
+.sidenav-container {
+  .mobile-sidenav {
+    width: 250px; /* Ajusta el ancho del sidenav en móvil */
+  }
+}
+
