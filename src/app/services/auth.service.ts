@@ -1,4 +1,3 @@
-// auth.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
@@ -30,7 +29,7 @@ export class AuthService {
     return this.http.post(`${this.baseUrl}/auth/register`, user).pipe(
       tap((res: any) => {
         this.setToken(res.accessToken);
-        this.userService.setUserType(res.user.user_type); // Actualizar el tipo de usuario
+        this.userService.setUserType(res.data.user.user_type); // Asegúrate de que user_type se establezca aquí
         this.loggedIn.next(true);
         this.router.navigate(['/']);
       })
@@ -40,8 +39,8 @@ export class AuthService {
   login(credentials: any) {
     return this.http.post(`${this.baseUrl}/auth/login`, credentials).pipe(
       tap((res: any) => {
-        this.setToken(res.accessToken);
-        this.userService.setUserType(res.user.user_type); // Actualizar el tipo de usuario
+        this.setToken(res.data.token);
+        this.userService.setUserType(res.data.user.user_type); // Asegúrate de que user_type se establezca aquí
         this.loggedIn.next(true);
         this.router.navigate(['/']);
       })
@@ -50,7 +49,7 @@ export class AuthService {
 
   logout() {
     localStorage.removeItem(this.tokenKey);
-    this.userService.setUserType(null); // Limpiar el tipo de usuario
+    this.userService.setUserType(null);
     this.loggedIn.next(false);
     this.router.navigate(['/login']);
   }

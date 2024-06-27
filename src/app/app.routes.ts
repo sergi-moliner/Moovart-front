@@ -18,7 +18,8 @@ export const routes: Routes = [
   { path: 'artists', component: ArtistsListComponent },
   { path: 'locals', component: LocalListComponent },
   { path: 'events', component: EventListComponent },
-  { path: 'artist-profile', component: ArtistProfileComponent, canActivate: [AuthGuard] },
-  { path: 'local-profile', component: LocalProfileComponent, canActivate: [AuthGuard] },
   { path: 'profile', component: ProfileRedirectComponent, canActivate: [AuthGuard] },
+  { path: 'profile/artist', component: ArtistProfileComponent, canActivate: [AuthGuard] },
+  { path: 'profile/local', component: LocalProfileComponent, canActivate: [AuthGuard] },
+  { path: '**', redirectTo: '' }
 ];

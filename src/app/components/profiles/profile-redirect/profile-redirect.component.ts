@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserService } from '../../../services/user.service';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-profile-redirect',
@@ -14,13 +15,15 @@ export class ProfileRedirectComponent implements OnInit {
   constructor(private router: Router, private userService: UserService) {}
 
   ngOnInit() {
-    this.userService.getUserType().subscribe(userType => {
-      if (userType === 'artist') {
-        this.router.navigate(['/artist-profile']);
-      } else if (userType === 'local') {
-        this.router.navigate(['/local-profile']);
+    this.userService.getUserType().pipe(take(1)).subscribe(user_type => {
+      if (user_type === 'artist') {
+        console.log('artist')
+        this.router.navigate(['/profile/artist']);
+      } else if (user_type === 'local') {
+        this.router.navigate(['/profile/local']);
       } else {
-        this.router.navigate(['/login']);
+        console.log('la puta que te pario', user_type)
+        this.router.navigate(['/home']);
       }
     });
   }
