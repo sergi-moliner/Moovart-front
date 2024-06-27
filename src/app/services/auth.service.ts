@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { UserService } from './user.service';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,8 @@ export class AuthService {
 
   constructor(
     private http: HttpClient,
-    private router: Router
+    private router: Router,
+    private userService: UserService
   ) {}
 
   private hasToken(): boolean {
@@ -28,6 +30,7 @@ export class AuthService {
     return this.http.post(`${this.baseUrl}/auth/register`, user).pipe(
       tap((res: any) => {
         this.setToken(res.accessToken);
+        this.userService.setUserType(res.user.user_type); // Actualizar el tipo de usuario
         this.loggedIn.next(true);
         this.router.navigate(['/']);
       })
@@ -38,6 +41,7 @@ export class AuthService {
     return this.http.post(`${this.baseUrl}/auth/login`, credentials).pipe(
       tap((res: any) => {
         this.setToken(res.accessToken);
+        this.userService.setUserType(res.user.user_type); // Actualizar el tipo de usuario
         this.loggedIn.next(true);
         this.router.navigate(['/']);
       })
@@ -46,6 +50,7 @@ export class AuthService {
 
   logout() {
     localStorage.removeItem(this.tokenKey);
+    this.userService.setUserType(null); // Limpiar el tipo de usuario
     this.loggedIn.next(false);
     this.router.navigate(['/login']);
   }

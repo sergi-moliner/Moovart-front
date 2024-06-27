@@ -1,17 +1,12 @@
-mat-toolbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: #b71c1c;
+.custom-toolbar {
+  background-color: #fff8e1 !important;
   color: white;
-
 
   .logo {
     font-size: 1.5rem;
     font-weight: bold;
-    color: inherit;
     text-decoration: underline;
-    color: black;
+    color: wheat !important;
   }
 
   .spacer {
@@ -21,9 +16,12 @@ mat-toolbar {
   .nav-items {
     display: flex;
     align-items: center;
+    color: white !important;
 
-    button {
-      margin-left: 1rem;
+    a {
+      color: white !important;
+      text-decoration: none;
+      margin: 0 1rem;
     }
   }
 
@@ -42,7 +40,7 @@ mat-toolbar {
     display: inline-flex; /* Muestra el botón de menú en móvil */
   }
 
-  mat-toolbar {
+  .custom-toolbar {
     .spacer {
       display: none; /* Oculta el espaciador en móvil */
     }
@@ -52,6 +50,10 @@ mat-toolbar {
 .sidenav-container {
   .mobile-sidenav {
     width: 250px; /* Ajusta el ancho del sidenav en móvil */
+  }
+
+  .mobile-sidenav a {
+    color: white !important;
   }
 }
 

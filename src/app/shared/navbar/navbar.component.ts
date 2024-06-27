@@ -8,10 +8,11 @@ import { MatSidenavModule, MatSidenav } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
-import { _MatInternalFormField } from '@angular/material/core';
+import { UserService } from '../../services/user.service';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { HomeComponent } from '../../components/home/home.component';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -38,7 +39,11 @@ export class NavbarComponent {
   opened = true;
   @ViewChild('sidenav') sidenav!: MatSidenav;
 
-  constructor(private authService: AuthService) {
+  constructor(
+    private authService: AuthService,
+    private userService: UserService,
+    private router: Router
+  ) {
     this.isLoggedIn = this.authService.isLoggedIn();
   }
 
@@ -48,7 +53,10 @@ export class NavbarComponent {
   }
 
   toggleSidenav() {
-    console.log('toggleSidenav');
     this.sidenav.toggle();
+  }
+
+  navigateToProfile() {
+    this.router.navigate(['/profile']);
   }
 }

@@ -1,0 +1,67 @@
+<!-- src/app/components/artist-list/artist-list.component.html -->
+<mat-toolbar color="primary">
+  <span>Artists</span>
+</mat-toolbar>
+
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav mode="side" opened>
+    <mat-toolbar>Filters</mat-toolbar>
+    <mat-form-field appearance="fill">
+      <mat-label>Genre</mat-label>
+      <mat-select>
+        <mat-option value="rock">Rock</mat-option>
+        <mat-option value="pop">Pop</mat-option>
+        <mat-option value="jazz">Jazz</mat-option>
+        <!-- Agrega más géneros aquí -->
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Location</mat-label>
+      <input matInput placeholder="Enter a location">
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Experience Level</mat-label>
+      <mat-select>
+        <mat-option value="beginner">Beginner</mat-option>
+        <mat-option value="intermediate">Intermediate</mat-option>
+        <mat-option value="professional">Professional</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Rating</mat-label>
+      <mat-select>
+        <mat-option value="1">1 Star</mat-option>
+        <mat-option value="2">2 Stars</mat-option>
+        <mat-option value="3">3 Stars</mat-option>
+        <mat-option value="4">4 Stars</mat-option>
+        <mat-option value="5">5 Stars</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <button mat-button (click)="applyFilters()">Apply Filters</button>
+    <button mat-button (click)="resetFilters()">Reset Filters</button>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <div class="content">
+      <!-- Aquí iría la lista de artistas -->
+      <mat-list>
+        <mat-list-item *ngFor="let artist of artists">
+
+        </mat-list-item>
+      </mat-list>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>
+
+
+@for(artist of artists; track artist){
+  <mat-card class="artist-card">
+    <mat-card-header>
+      <mat-card-title>dghfhd</mat-card-title>
+      <mat-card-subtitle>jdjdht</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <p>dhgfdh</p>
+    </mat-card-content>
+  </mat-card>
+}

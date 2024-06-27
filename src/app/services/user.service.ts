@@ -5,34 +5,30 @@ import { BehaviorSubject, Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class UserService {
-  private userKey = 'user-fullname';
-  private currentUserSubject: BehaviorSubject<string | null>;
-  public currentUser: Observable<string | null>;
+  private userTypeKey = 'user-type';
+  private currentUserTypeSubject: BehaviorSubject<string | null>;
+  public currentUserType: Observable<string | null>;
 
   constructor() {
-    const fullName = this.getFullNameFromLocalStorage();
-    this.currentUserSubject = new BehaviorSubject<string | null>(fullName);
-    this.currentUser = this.currentUserSubject.asObservable();
+    const userType = this.getUserTypeFromLocalStorage();
+    this.currentUserTypeSubject = new BehaviorSubject<string | null>(userType);
+    this.currentUserType = this.currentUserTypeSubject.asObservable();
   }
 
-  setFullName(name: string | null) {
-    if (name) {
-      localStorage.setItem(this.userKey, name);
+  setUserType(userType: string | null) {
+    if (userType) {
+      localStorage.setItem(this.userTypeKey, userType);
     } else {
-      localStorage.removeItem(this.userKey);
+      localStorage.removeItem(this.userTypeKey);
     }
-    this.currentUserSubject.next(name);
+    this.currentUserTypeSubject.next(userType);
   }
 
-  getFullName(): Observable<string | null> {
-    return this.currentUser;
+  getUserType(): Observable<string | null> {
+    return this.currentUserType;
   }
 
-  getFullNameFromLocalStorage(): string | null {
-    return localStorage.getItem(this.userKey);
-  }
-
-  isLoggedIn(): boolean {
-    return this.getFullNameFromLocalStorage() !== null;
+  getUserTypeFromLocalStorage(): string | null {
+    return localStorage.getItem(this.userTypeKey);
   }
 }

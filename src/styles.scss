@@ -12,7 +12,7 @@
 // Define the theme object.
 $proyecto-theme: mat.define-theme((
   color: (
-    theme-type: light,
+
     primary: mat.$red-palette,
     tertiary: mat.$blue-palette,
   ),
