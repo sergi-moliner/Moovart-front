@@ -1,19 +1,10 @@
 import { Component, ViewChild } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatMenuModule } from '@angular/material/menu';
-import { MatSidenavModule, MatSidenav } from '@angular/material/sidenav';
-import { MatListModule } from '@angular/material/list';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
 import { UserService } from '../../services/user.service';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
 import { HomeComponent } from '../../components/home/home.component';
 import { Router } from '@angular/router';
-
 
 @Component({
   selector: 'app-navbar',
@@ -21,23 +12,17 @@ import { Router } from '@angular/router';
   imports: [
     CommonModule,
     RouterModule,
-    MatToolbarModule,
-    MatButtonModule,
-    MatIconModule,
-    MatMenuModule,
-    MatSidenavModule,
-    MatListModule,
-    MatFormFieldModule,
-    MatInputModule,
     HomeComponent
   ],
   templateUrl: './navbar.component.html',
-  styleUrl: './navbar.component.scss'
+  styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent {
   isLoggedIn = false;
-  opened = true;
-  @ViewChild('sidenav') sidenav!: MatSidenav;
+  opened = false;
+  notificationCount = 0;
+  userProfilePicture = '/proyecto/c9deb7fe244e7b4e31be87261c1910d4.jpg'; // Reemplaza con la ruta a una imagen por defecto
+  userName = '';
 
   constructor(
     private authService: AuthService,
@@ -45,15 +30,19 @@ export class NavbarComponent {
     private router: Router
   ) {
     this.isLoggedIn = this.authService.isLoggedIn();
+    if (this.isLoggedIn) {
+
+    }
   }
 
   logout() {
     this.authService.logout();
     this.isLoggedIn = false;
+    this.router.navigate(['/home']);
   }
 
   toggleSidenav() {
-    this.sidenav.toggle();
+    this.opened = !this.opened;
   }
 
   navigateToProfile() {

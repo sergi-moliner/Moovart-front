@@ -10,8 +10,8 @@ export interface Artist {
   genre: string;
   experienceLevel: string;
   contactInfo: { [key: string]: string }; // For storing social media links and other contacts
-  profilePhotoUrl: string;
-  featuredWorkPhotoUrl: string;
+  profilePhotoId: number;
+  featuredWorkPhotoId: number;
   cvUrl: string;
   portfolios: Portfolio[];
 }

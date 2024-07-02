@@ -2,51 +2,64 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
-import { MatCardModule } from '@angular/material/card';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
-import { MatButtonModule } from '@angular/material/button';
+import { Router } from '@angular/router';
+
+
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    RouterModule,
-    MatCardModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule
-  ],
+  imports: [ CommonModule, ReactiveFormsModule ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
 export class LoginComponent {
   loginForm: FormGroup;
+  hidePassword = true;
+  loginError: string | null = null;
 
-  constructor(private fb: FormBuilder, private authService: AuthService) {
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private router: Router
+  ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required]
+      password: ['', Validators.required],
+      rememberMe: [false]
     });
   }
 
   get email() { return this.loginForm.get('email'); }
   get password() { return this.loginForm.get('password'); }
 
+  togglePasswordVisibility() {
+    this.hidePassword = !this.hidePassword;
+  }
+
+  validateField(fieldName: string) {
+    const field = this.loginForm.get(fieldName);
+    field?.markAsTouched();
+  }
+
   onSubmit() {
     if (this.loginForm.valid) {
       this.authService.login(this.loginForm.value).subscribe(
         response => {
           console.log('Login successful', response);
+          this.router.navigate(['/profile']); // Redirigir al perfil del usuario
         },
         error => {
           console.log('Login failed', error);
+          this.loginError = 'Invalid email or password'; // Mensaje de error
         }
       );
+    } else {
+      this.markAllAsTouched();
     }
+  }
+
+  private markAllAsTouched() {
+    this.loginForm.markAllAsTouched();
   }
 }

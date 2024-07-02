@@ -1,58 +1,51 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { ArtistService } from '../../services/artist.service';
-import { Artist } from '../../interfaces/artist';
-import { MatCardModule } from '@angular/material/card';
-import { MatSidenav } from '@angular/material/sidenav';
-import { MatListModule } from '@angular/material/list';
+import { Artist } from '../../interfaces/user';
 import { CommonModule } from '@angular/common';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatSelectModule } from '@angular/material/select';
+
 
 @Component({
   selector: 'app-artists-list',
   standalone: true,
-  imports: [
-    CommonModule,
-    MatToolbarModule,
-    MatButtonModule,
-    MatIconModule,
-    MatSidenavModule,
-    MatListModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatSelectModule,
-    MatCardModule
-  ],
+  imports: [ CommonModule, ReactiveFormsModule ],
   templateUrl: './artists-list.component.html',
   styleUrl: './artists-list.component.scss'
 })
-export class ArtistsListComponent {
-  @ViewChild('sidenav') sidenav!: MatSidenav;
-
-  toggleSidenav() {
-    this.sidenav.toggle();
-  }
-
+export class ArtistsListComponent implements OnInit {
   artists: Artist[] = [];
+  filterForm: FormGroup;
 
-  constructor(private artistService: ArtistService) {}
-
-  ngOnInit(): void {
-    this.artistService.getArtists().subscribe((data) => {
-      this.artists = data;
+  constructor(
+    private artistService: ArtistService,
+    private fb: FormBuilder
+  ) {
+    this.filterForm = this.fb.group({
+      name: [''],
+      genre: ['']
     });
   }
 
-  applyFilters() {
-
+  ngOnInit(): void {
+    this.getArtists();
+    this.filterForm.valueChanges.subscribe(filters => {
+      this.applyFilters(filters);
+    });
   }
 
-  resetFilters() {
+  getArtists(filters?: any): void {
+    this.artistService.getArtists(filters).subscribe((artists) => {
+      this.artists = artists;
+    }, (error) => {
+      console.error('Error fetching artists:', error);
+    });
+  }
 
+  applyFilters(filters: any): void {
+    const filteredArtists = this.artists.filter(artist => {
+      return (!filters.name || artist.name.toLowerCase().includes(filters.name.toLowerCase())) &&
+             (!filters.genre || artist.genre?.toLowerCase().includes(filters.genre.toLowerCase()));
+    });
+    this.artists = filteredArtists;
   }
 }

@@ -5,10 +5,10 @@ import { HomeComponent } from './components/home/home.component';
 import { ArtistsListComponent } from './components/artists-list/artists-list.component';
 import { LocalListComponent } from './components/local-list/local-list.component';
 import { EventListComponent } from './components/event-list/event-list.component';
-import { ArtistProfileComponent } from './components/profiles/artist-profile/artist-profile.component';
 import { LocalProfileComponent } from './components/profiles/local-profile/local-profile.component';
-import { ProfileRedirectComponent } from './components/profiles/profile-redirect/profile-redirect.component';
+
 import { AuthGuard } from './guards/auth.guard';
+
 
 export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full'},
@@ -18,8 +18,6 @@ export const routes: Routes = [
   { path: 'artists', component: ArtistsListComponent },
   { path: 'locals', component: LocalListComponent },
   { path: 'events', component: EventListComponent },
-  { path: 'profile', component: ProfileRedirectComponent, canActivate: [AuthGuard] },
-  { path: 'profile/artist', component: ArtistProfileComponent, canActivate: [AuthGuard] },
-  { path: 'profile/local', component: LocalProfileComponent, canActivate: [AuthGuard] },
+  { path: 'profile', component: LocalProfileComponent, canActivate: [AuthGuard] },
   { path: '**', redirectTo: '' }
 ];

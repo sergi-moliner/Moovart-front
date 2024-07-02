@@ -1,28 +1,41 @@
-.register-container, .login-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  background: linear-gradient(45deg, #bbacac, #fff8e1);
+body {
+  background-color: #f8f9fa;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
-.register-card, .login-card {
-  width: 100%;
+.login-container {
   max-width: 500px;
-  padding: 2rem;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
-  background-color: #faf7eb; // Beige
+  margin: 50px auto;
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.full-width {
-  width: 100%;
-  margin-bottom: 1rem;
+.logo {
+  display: block;
+  margin: 0 auto 20px;
+  width: 150px;
 }
 
-mat-card-title {
-  text-align: center;
-  font-size: 1.5rem;
-  margin-bottom: 1rem;
-  color: #b71c1c; // Carmín
+h2 {
+  color: #b71c1c; /* Carmín */
+}
+
+.btn-primary {
+  background-color: #b71c1c;
+  border-color: #b71c1c;
+}
+
+.btn-primary:hover {
+  background-color: #9c1818;
+  border-color: #9c1818;
+}
+
+.text-danger {
+  font-size: 0.875rem;
+}
+
+.input-group-text {
+  cursor: pointer;
 }

@@ -1,34 +1,99 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Observable, BehaviorSubject, of } from 'rxjs';
+import { User, Artist, Local } from '../interfaces/user';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-  private userTypeKey = 'user-type';
-  private currentUserTypeSubject: BehaviorSubject<string | null>;
-  public currentUserType: Observable<string | null>;
+  private apiUrl = 'http://localhost:3000/users';
+  private currentUser: User | null = null;
 
-  constructor() {
-    const userType = this.getUserTypeFromLocalStorage();
-    this.currentUserTypeSubject = new BehaviorSubject<string | null>(userType);
-    this.currentUserType = this.currentUserTypeSubject.asObservable();
+  constructor(private http: HttpClient, private authService: AuthService) {
+    this.authService.profileChanged.subscribe(user => {
+      console.log('User profile changed:', user);
+      this.currentUser = user;
+    });
   }
 
-  setUserType(userType: string | null) {
-    if (userType) {
-      localStorage.setItem(this.userTypeKey, userType);
-    } else {
-      localStorage.removeItem(this.userTypeKey);
+  getUsers(): Observable<User[]> {
+    return this.http.get<User[]>(this.apiUrl);
+  }
+
+  getUser(id: number): Observable<User> {
+    return this.http.get<User>(`${this.apiUrl}/${id}`);
+  }
+
+  getCurrentUserProfile(): Observable<User> {
+    return this.http.get<User>(`${this.apiUrl}/profile`);
+  }
+
+  updateUserProfile(user: User): Observable<User> {
+    return this.http.put<User>(`${this.apiUrl}/profile`, user);
+  }
+
+  getArtists(filterParams?: any): Observable<Artist[]> {
+    let params = new HttpParams();
+    if (filterParams) {
+      Object.keys(filterParams).forEach(key => {
+        if (filterParams[key]) {
+          params = params.append(key, filterParams[key]);
+        }
+      });
     }
-    this.currentUserTypeSubject.next(userType);
+    return this.http.get<Artist[]>(`${this.apiUrl}/artists`, { params });
   }
 
-  getUserType(): Observable<string | null> {
-    return this.currentUserType;
+  getLocals(filterParams?: any): Observable<Local[]> {
+    let params = new HttpParams();
+    if (filterParams) {
+      Object.keys(filterParams).forEach(key => {
+        if (filterParams[key]) {
+          params = params.append(key, filterParams[key]);
+        }
+      });
+    }
+    return this.http.get<Local[]>(`${this.apiUrl}/locals`, { params });
   }
 
-  getUserTypeFromLocalStorage(): string | null {
-    return localStorage.getItem(this.userTypeKey);
+  createUser(user: User): Observable<User> {
+    return this.http.post<User>(this.apiUrl, user);
+  }
+
+  updateUser(id: number, user: User): Observable<User> {
+    return this.http.put<User>(`${this.apiUrl}/${id}`, user);
+  }
+
+  deleteUser(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  }
+
+  updateArtist(id_artist: number, artist: Artist): Observable<Artist> {
+    return this.http.put<Artist>(`${this.apiUrl}/artist/${id_artist}`, artist);
+  }
+
+  updateLocal(id_local: number, local: Local): Observable<Local> {
+    return this.http.put<Local>(`${this.apiUrl}/local/${id_local}`, local);
+  }
+
+  uploadProfilePhoto(userId: number, formData: FormData): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/${userId}/uploadProfilePhoto`, formData);
+  }
+
+  getCurrentUser(): Observable<User | null> {
+    console.log('Getting current user:', this.currentUser);
+    return of(this.currentUser);
+  }
+
+  setUserType(type: 'artist' | 'local'): void {
+    if (this.currentUser) {
+      this.currentUser.user_type = type;
+    }
+  }
+
+  getUserType(): Observable<'artist' | 'local'> {
+    return of(this.currentUser ? this.currentUser.user_type : 'local'); // Defaulting to 'local' if currentUser is null, adjust as necessary
   }
 }

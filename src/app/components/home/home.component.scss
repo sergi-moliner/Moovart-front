@@ -1,29 +1,12 @@
-
-
-#hero {
-  background: url('../../../../ducks_header-2099851994.jpg') no-repeat center center/cover;
-  color: #fff;
-  text-align: center;
-  padding: 4rem 0;
+.hero {
+  background: url('../../../assets/imgs/2XwidLzQDmfsKwarvNL80u4h40U-desktop.jpg') no-repeat center center;
+  background-size: cover;
 }
 
 .section {
-  padding: 2rem 0;
-  text-align: center;
-
-  .card {
-    margin: 1rem 0;
-  }
+  padding: 60px 0;
 }
 
-footer {
-  background-color: #333;
-  padding: 1rem 0;
-  color: #fff;
-
-  nav {
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
-  }
+.footer {
+  background: #333;
 }

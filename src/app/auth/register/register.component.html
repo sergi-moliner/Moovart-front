@@ -1,59 +1,84 @@
 <div class="register-container">
-  <mat-card class="register-card">
-    <mat-card-title>Register</mat-card-title>
-    <mat-card-content>
-      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Name</mat-label>
-          <input matInput formControlName="name" required>
-          @if (name?.hasError('required')) {
-            <mat-error>Name is required</mat-error>
-          }
-        </mat-form-field>
+  <img src="logo.png" alt="Logo" class="logo">
+  <h2 class="text-center">Register</h2>
+  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+    <div class="mb-3">
+      <label for="name" class="form-label">Name</label>
+      <input type="text" class="form-control" id="name" formControlName="name" required>
+      @if (name?.touched && name?.invalid && name?.hasError('required')) {
+        <div class="text-danger">Name is required</div>
+      }
+    </div>
 
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Email</mat-label>
-          <input matInput formControlName="email" required>
-          @if (email?.hasError('required')) {
-            <mat-error>Email is required</mat-error>
-          }
-          @if (email?.hasError('email')) {
-            <mat-error>Invalid email address</mat-error>
-          }
-        </mat-form-field>
+    <div class="mb-3">
+      <label for="email" class="form-label">Email</label>
+      <input type="email" class="form-control" id="email" formControlName="email" required>
+      @if (email?.touched && email?.invalid && email?.hasError('required')) {
+        <div class="text-danger">Email is required</div>
+      }
+      @if (email?.touched && email?.invalid && email?.hasError('email')) {
+        <div class="text-danger">Invalid email address</div>
+      }
+      @if (emailExistsError) {
+        <div class="text-danger">Email already exists</div>
+      }
+    </div>
 
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Password</mat-label>
-          <input matInput type="password" formControlName="password" required>
-          @if (password?.hasError('required')) {
-            <mat-error>Password is required</mat-error>
-          }
-          @if (password?.hasError('minlength')) {
-            <mat-error>Password must be at least 6 characters</mat-error>
-          }
-        </mat-form-field>
+    <div class="mb-3">
+      <label for="password" class="form-label">Password</label>
+      <input type="password" class="form-control" id="password" formControlName="password" required>
+      @if (password?.touched && password?.invalid && password?.hasError('required')) {
+        <div class="text-danger">Password is required</div>
+      }
+      @if (password?.touched && password?.invalid && password?.hasError('minlength')) {
+        <div class="text-danger">Password must be at least 6 characters</div>
+      }
+    </div>
 
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>City</mat-label>
-          <input matInput formControlName="city" required>
-          @if (city?.hasError('required')) {
-            <mat-error>City is required</mat-error>
-          }
-        </mat-form-field>
+    <div class="mb-3">
+      <label for="confirmPassword" class="form-label">Confirm Password</label>
+      <input type="password" class="form-control" id="confirmPassword" formControlName="confirmPassword" required>
+      @if (confirmPassword?.touched && confirmPassword?.invalid && confirmPassword?.hasError('required')) {
+        <div class="text-danger">Confirm Password is required</div>
+      }
+      @if (confirmPassword?.touched && confirmPassword?.invalid && confirmPassword?.hasError('mustMatch')) {
+        <div class="text-danger">Passwords must match</div>
+      }
+    </div>
 
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>User Type</mat-label>
-          <mat-select formControlName="user_type" required>
-            <mat-option value="artist">Artist</mat-option>
-            <mat-option value="local">Local</mat-option>
-          </mat-select>
-          @if (user_type?.hasError('required')) {
-            <mat-error>User type is required</mat-error>
-          }
-        </mat-form-field>
+    <div class="mb-3">
+      <label for="city" class="form-label">City</label>
+      <select class="form-select" id="city" formControlName="city" required>
+        <option value="">Select City</option>
+        @for (city of cities; track city) {
+          <option [value]="city">{{ city }}</option>
+        }
+      </select>
+      @if (city?.touched && city?.invalid && city?.hasError('required')) {
+        <div class="text-danger">City is required</div>
+      }
+    </div>
 
-        <button mat-raised-button color="primary" type="submit">Register</button>
-      </form>
-    </mat-card-content>
-  </mat-card>
+    <div class="mb-3">
+      <label for="user_type" class="form-label">User Type</label>
+      <select class="form-select" id="user_type" formControlName="user_type" required>
+        <option value="">Select Role</option>
+        <option value="artist">Artist</option>
+        <option value="local">Local</option>
+      </select>
+      @if (user_type?.touched && user_type?.invalid && user_type?.hasError('required')) {
+        <div class="text-danger">User type is required</div>
+      }
+    </div>
+
+    <div class="mb-3 form-check">
+      <input type="checkbox" class="form-check-input" id="terms" formControlName="terms" required>
+      <label class="form-check-label" for="terms">I agree to the <a href="#">Terms and Conditions</a> and <a href="#">Privacy Policy</a></label>
+      @if (terms?.touched && terms?.invalid && terms?.hasError('required')) {
+        <div class="text-danger">You must agree to the terms</div>
+      }
+    </div>
+
+    <button class="btn btn-primary w-100" type="submit">Register</button>
+  </form>
 </div>

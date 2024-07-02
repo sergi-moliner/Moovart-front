@@ -1,9 +1,9 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Injectable, EventEmitter } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { UserService } from './user.service';
+import { User } from '../interfaces/user';
 
 @Injectable({
   providedIn: 'root'
@@ -12,57 +12,71 @@ export class AuthService {
   private baseUrl = 'http://localhost:3000';
   private tokenKey = 'auth-token';
   private loggedIn = new BehaviorSubject<boolean>(this.hasToken());
+  profileChanged = new EventEmitter<User | null>(); // Emitir null cuando se desloguee
 
   loggedIn$ = this.loggedIn.asObservable();
 
   constructor(
     private http: HttpClient,
-    private router: Router,
-    private userService: UserService
+    private router: Router
   ) {}
 
   private hasToken(): boolean {
     return !!localStorage.getItem(this.tokenKey);
   }
 
-  register(user: any) {
+  register(user: any): Observable<any> {
     return this.http.post(`${this.baseUrl}/auth/register`, user).pipe(
       tap((res: any) => {
-        this.setToken(res.accessToken);
-        this.userService.setUserType(res.data.user.user_type); // Asegúrate de que user_type se establezca aquí
+        this.setToken(res.data.accessToken); // Cambiado a res.data.accessToken
+        this.profileChanged.emit(res.data.user); // Emitir evento
         this.loggedIn.next(true);
         this.router.navigate(['/']);
       })
     );
   }
 
-  login(credentials: any) {
+  login(credentials: any): Observable<any> {
     return this.http.post(`${this.baseUrl}/auth/login`, credentials).pipe(
       tap((res: any) => {
-        this.setToken(res.data.token);
-        this.userService.setUserType(res.data.user.user_type); // Asegúrate de que user_type se establezca aquí
+        this.setToken(res.data.accessToken); // Cambiado a res.data.accessToken
+        this.profileChanged.emit(res.data.user); // Emitir evento
         this.loggedIn.next(true);
         this.router.navigate(['/']);
       })
     );
   }
 
-  logout() {
+  logout(): void {
     localStorage.removeItem(this.tokenKey);
-    this.userService.setUserType(null);
     this.loggedIn.next(false);
+    this.profileChanged.emit(null); // Emitir null
     this.router.navigate(['/login']);
   }
 
-  setToken(token: string) {
+  private setToken(token: string): void {
     localStorage.setItem(this.tokenKey, token);
   }
 
-  getToken() {
+  getToken(): string | null {
     return localStorage.getItem(this.tokenKey);
   }
 
   isLoggedIn(): boolean {
     return this.loggedIn.value;
   }
+
+  getProfile(): Observable<User> {
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${this.getToken()}`);
+    return this.http.get<User>(`${this.baseUrl}/auth/profile`, { headers }).pipe(
+      tap(user => {
+        this.profileChanged.emit(user); // Emitir evento
+      })
+    );
+  }
+
+  checkEmailAvailability(email: string): Observable<any> {
+    return this.http.get(`${this.baseUrl}/auth/check-email`, { params: { email } });
+  }
+
 }

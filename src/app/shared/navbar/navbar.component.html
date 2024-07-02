@@ -1,61 +1,93 @@
-<mat-toolbar color="accent" class="custom-toolbar">
-  <button mat-icon-button class="mobile-menu-button" (click)="toggleSidenav()">
-    <mat-icon>menu</mat-icon>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <a class="navbar-brand logo ml-auto" routerLink="/home">
+    <div class="logo" alt="Logo"></div>
+  </a>
+
+  <button class="navbar-toggler" type="button" (click)="toggleSidenav()">
+    <span class="navbar-toggler-icon"></span>
   </button>
 
-  <a routerLink="/home">
-    <span class="logo">LOGO</span>
-  </a>
-  <span class="spacer"></span>
-
-  @if(isLoggedIn){
-    <button mat-button class="custom-button" routerLink="/new-event">New Event</button>
-  }
-  <button mat-button class="custom-button" routerLink="/artists">Artists</button>
-  <button mat-button class="custom-button" routerLink="/locals">Locals</button>
-  <button mat-button class="custom-button" routerLink="/events">Events</button>
-  @if(!isLoggedIn){
-    <button mat-button class="custom-button" routerLink="/login">Log in</button>
-  }
-  @if(!isLoggedIn){
-    <button mat-button class="custom-button" routerLink="/register">Register</button>
-  }
-  @if(isLoggedIn){
-    <button mat-icon-button class="custom-icon-button" [matMenuTriggerFor]="menu">
-      <mat-icon>account_circle</mat-icon>
-    </button>
-
-    <mat-menu #menu="matMenu">
-      <button mat-menu-item (click)="navigateToProfile()">Profile</button>
-      <button mat-menu-item (click)="logout()">Log out</button>
-    </mat-menu>
-    <button mat-icon-button class="custom-icon-button">
-      <mat-icon>notifications</mat-icon>
-    </button>
-  }
-</mat-toolbar>
-
-
-<!--la sidebar no va-->
-<mat-sidenav-container class="sidenav-container">
-  <mat-sidenav #sidenav mode="over" class="mobile-sidenav">
-    <mat-nav-list>
-      @if(isLoggedIn){
-        <a mat-list-item routerLink="/new-event">New Event</a>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav me-auto">
+      @if(isLoggedIn) {
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/new-event">New Event</a>
+        </li>
       }
-      <a mat-list-item routerLink="/artists">Artists</a>
-      <a mat-list-item routerLink="/locals">Locals</a>
-      <a mat-list-item routerLink="/events">Events</a>
-      @if(!isLoggedIn){
-        <a mat-list-item routerLink="/login">Log in</a>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/artists">Artists</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/locals">Locals</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/events">Events</a>
+      </li>
+      @if(!isLoggedIn) {
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/login">Log in</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/register">Register</a>
+        </li>
       }
-      @if(isLoggedIn){
-        <a mat-list-item (click)="logout()">Log out</a>
-      }
-      <a mat-list-item routerLink="/profile">Profile</a>
-    </mat-nav-list>
-  </mat-sidenav>
-  <mat-sidenav-content>
-    <router-outlet></router-outlet>
-  </mat-sidenav-content>
-</mat-sidenav-container>
+    </ul>
+    @if(isLoggedIn) {
+      <ul class="navbar-nav ms-auto align-items-center">
+        <li class="nav-item">
+          <a class="nav-link" href="#">
+            <i class="fas fa-bell"></i>
+            <span *ngIf="notificationCount > 0" class="badge badge-danger">{{ notificationCount }}</span>
+          </a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="userMenu" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <img [src]="userProfilePicture" class="rounded-circle" width="30" height="30" alt="User profile picture">
+            <span class="ms-2">{{ userName }}</span>
+          </a>
+          <div class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenu">
+            <a class="dropdown-item" (click)="navigateToProfile()">Profile</a>
+            <a class="dropdown-item" (click)="logout()">Log out</a>
+          </div>
+        </li>
+      </ul>
+    }
+  </div>
+</nav>
+
+<div class="sidenav" [class.open]="opened">
+  <ul class="list-group">
+    @if(isLoggedIn) {
+      <li class="list-group-item">
+        <a routerLink="/new-event">New Event</a>
+      </li>
+    }
+    <li class="list-group-item">
+      <a routerLink="/artists">Artists</a>
+    </li>
+    <li class="list-group-item">
+      <a routerLink="/locals">Locals</a>
+    </li>
+    <li class="list-group-item">
+      <a routerLink="/events">Events</a>
+    </li>
+    @if(!isLoggedIn) {
+      <li class="list-group-item">
+        <a routerLink="/login">Log in</a>
+      </li>
+      <li class="list-group-item">
+        <a routerLink="/register">Register</a>
+      </li>
+    }
+    @if(isLoggedIn) {
+      <li class="list-group-item">
+        <a (click)="logout()">Log out</a>
+      </li>
+      <li class="list-group-item">
+        <a routerLink="/profile">Profile</a>
+      </li>
+    }
+  </ul>
+</div>
+
+<router-outlet></router-outlet>
