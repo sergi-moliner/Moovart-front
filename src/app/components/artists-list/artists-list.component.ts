@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ArtistService } from '../../services/artist.service';
 import { Artist } from '../../interfaces/user';
 import { CommonModule } from '@angular/common';
@@ -8,44 +8,49 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-artists-list',
   standalone: true,
-  imports: [ CommonModule, ReactiveFormsModule ],
+  imports: [ CommonModule, ReactiveFormsModule, FormsModule ],
   templateUrl: './artists-list.component.html',
   styleUrl: './artists-list.component.scss'
 })
 export class ArtistsListComponent implements OnInit {
-  artists: Artist[] = [];
-  filterForm: FormGroup;
+  searchTerm: string = '';
+  showFilters: boolean = true;
+  sortOrder: string = 'name';
+  filters: any = {
+    city: '',
+    genre: '',
+    experienceLevel: ''
+  };
+  cities: string[] = ['City1', 'City2', 'City3'];
+  genres: string[] = ['Genre1', 'Genre2', 'Genre3'];
+  experienceLevels: string[] = ['Beginner', 'Intermediate', 'Expert'];
+  artists: any[] = [];
+  filteredArtists: any[] = [];
 
-  constructor(
-    private artistService: ArtistService,
-    private fb: FormBuilder
-  ) {
-    this.filterForm = this.fb.group({
-      name: [''],
-      genre: ['']
-    });
-  }
+  constructor(private artistService: ArtistService) { }
 
   ngOnInit(): void {
-    this.getArtists();
-    this.filterForm.valueChanges.subscribe(filters => {
-      this.applyFilters(filters);
-    });
-  }
-
-  getArtists(filters?: any): void {
-    this.artistService.getArtists(filters).subscribe((artists) => {
+    this.artistService.getArtists().subscribe(artists => {
       this.artists = artists;
-    }, (error) => {
-      console.error('Error fetching artists:', error);
+      this.filteredArtists = artists;
     });
   }
 
-  applyFilters(filters: any): void {
-    const filteredArtists = this.artists.filter(artist => {
-      return (!filters.name || artist.name.toLowerCase().includes(filters.name.toLowerCase())) &&
-             (!filters.genre || artist.genre?.toLowerCase().includes(filters.genre.toLowerCase()));
+  search(): void {
+    this.filteredArtists = this.artists.filter(artist => artist.name.toLowerCase().includes(this.searchTerm.toLowerCase()));
+  }
+
+  applyFilters(): void {
+    this.filteredArtists = this.artists.filter(artist => {
+      return (
+        (!this.filters.city || artist.city === this.filters.city) &&
+        (!this.filters.genre || artist.genre === this.filters.genre) &&
+        (!this.filters.experienceLevel || artist.experienceLevel === this.filters.experienceLevel)
+      );
     });
-    this.artists = filteredArtists;
+  }
+
+  viewDetails(artist: any): void {
+    // Logic to open the modal or navigate to the details page
   }
 }

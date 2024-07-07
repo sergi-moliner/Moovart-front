@@ -1,0 +1,28 @@
+<div class="container mt-5">
+  <div *ngIf="loading" class="text-center">
+    Loading...
+  </div>
+  <div *ngIf="error" class="alert alert-danger">
+    {{ error }}
+  </div>
+  <div *ngIf="!loading && profile" class="row">
+    <div class="col-md-8">
+      <h1>{{ profile.User.name }}</h1>
+      <!-- Espacio en blanco para agregar más contenido en el futuro -->
+    </div>
+    <div class="col-md-4 text-center profile-section">
+      <img [src]="profile.profile_photo_url || 'default-profile-picture.jpg'" class="rounded-circle img-fluid mb-3" alt="Profile Photo">
+      <button class="btn btn-primary" (click)="editProfile()">Edit Profile</button>
+      <p><strong>Email:</strong> {{ profile.User.email }}</p>
+      <p><strong>City:</strong> {{ profile.User.city }}</p>
+      <p><strong>User Type:</strong> {{ profile.User.user_type }}</p>
+      @if(profile.bio) {
+        <p><strong>Bio:</strong> {{ profile.bio }}</p>
+      }
+      @if(profile.website) {
+        <p><strong>Website:</strong> <a [href]="profile.website" target="_blank">{{ profile.website }}</a></p>
+      }
+    </div>
+  </div>
+  <div class="separator"></div>
+</div>

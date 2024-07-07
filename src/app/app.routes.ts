@@ -5,9 +5,11 @@ import { HomeComponent } from './components/home/home.component';
 import { ArtistsListComponent } from './components/artists-list/artists-list.component';
 import { LocalListComponent } from './components/local-list/local-list.component';
 import { EventListComponent } from './components/event-list/event-list.component';
-import { LocalProfileComponent } from './components/profiles/local-profile/local-profile.component';
+import { ProfileEditComponent } from './components/profile/profile-edit/profile-edit.component';
+
 
 import { AuthGuard } from './guards/auth.guard';
+import { ProfileViewComponent } from './components/profile/profile-view/profile-view.component';
 
 
 export const routes: Routes = [
@@ -18,6 +20,7 @@ export const routes: Routes = [
   { path: 'artists', component: ArtistsListComponent },
   { path: 'locals', component: LocalListComponent },
   { path: 'events', component: EventListComponent },
-  { path: 'profile', component: LocalProfileComponent, canActivate: [AuthGuard] },
+  { path: 'profile/:id', component: ProfileViewComponent, canActivate: [AuthGuard] },
+  { path: 'profile/:id/edit', component: ProfileEditComponent, canActivate: [AuthGuard] },
   { path: '**', redirectTo: '' }
 ];

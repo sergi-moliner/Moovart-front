@@ -22,4 +22,19 @@ export class ArtistService {
     }
     return this.http.get<Artist[]>(this.apiUrl, { params });
   }
+  getArtist(id: number): Observable<Artist> {
+    return this.http.get<Artist>(`${this.apiUrl}/${id}`);
+  }
+
+  createArtist(artist: Artist): Observable<Artist> {
+    return this.http.post<Artist>(this.apiUrl, artist);
+  }
+
+  updateArtist(id: number, artist: Artist): Observable<Artist> {
+    return this.http.put<Artist>(`${this.apiUrl}/${id}`, artist);
+  }
+
+  deleteArtist(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  }
 }

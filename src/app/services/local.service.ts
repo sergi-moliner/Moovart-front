@@ -1,33 +1,45 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Local } from '../interfaces/local';
 
 @Injectable({
   providedIn: 'root'
 })
-export class localService {
+export class LocalService {
   private apiUrl = 'http://localhost:3000/locals';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
-  getlocals(): Observable<Local[]> {
-    return this.http.get<Local[]>(this.apiUrl);
+  getLocals(filterParams?: any): Observable<Local[]> {
+    let params = new HttpParams();
+    if (filterParams) {
+      Object.keys(filterParams).forEach(key => {
+        if (filterParams[key]) {
+          params = params.append(key, filterParams[key]);
+        }
+      });
+    }
+    return this.http.get<Local[]>(this.apiUrl, { params });
   }
 
-  getlocal(id: number): Observable<Local> {
+  getLocalPhotos(localId: number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/${localId}/photos`);
+  }
+
+  getLocal(id: number): Observable<Local> {
     return this.http.get<Local>(`${this.apiUrl}/${id}`);
   }
 
-  createlocal(local: Local): Observable<Local> {
+  createLocal(local: Local): Observable<Local> {
     return this.http.post<Local>(this.apiUrl, local);
   }
 
-  updatelocal(id: number, local: Local): Observable<Local> {
+  updateLocal(id: number, local: Local): Observable<Local> {
     return this.http.put<Local>(`${this.apiUrl}/${id}`, local);
   }
 
-  deletelocal(id: number): Observable<void> {
+  deleteLocal(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 }

@@ -18,6 +18,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent {
+  userId: number = 1; // Reemplaza con el ID del usuario actual
   isLoggedIn = false;
   opened = false;
   notificationCount = 0;
@@ -45,7 +46,7 @@ export class NavbarComponent {
     this.opened = !this.opened;
   }
 
-  navigateToProfile() {
-    this.router.navigate(['/profile']);
+  goToProfile() {
+    this.router.navigate(['/profile', this.userId]);
   }
 }

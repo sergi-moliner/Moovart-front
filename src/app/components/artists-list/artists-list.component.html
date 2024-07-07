@@ -1,26 +1,80 @@
 <div class="container mt-5">
-  <h2 class="text-center mb-4">Lista de Artistas</h2>
-  <form [formGroup]="filterForm" class="mb-4">
-    <div class="row">
-      <div class="col-md-6 mb-3">
-        <label for="name" class="form-label">Nombre</label>
-        <input id="name" type="text" class="form-control" formControlName="name">
-      </div>
-      <div class="col-md-6 mb-3">
-        <label for="genre" class="form-label">Género</label>
-        <input id="genre" type="text" class="form-control" formControlName="genre">
+  <div class="row">
+    <!-- Barra Lateral de Filtros -->
+    <div class="col-md-3">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Filters</h5>
+          <div class="mb-3">
+            <label for="search" class="form-label">Search by name</label>
+            <input type="text" class="form-control" id="search" [(ngModel)]="searchTerm">
+          </div>
+          <div class="mb-3">
+            <label for="city" class="form-label">City</label>
+            <select id="city" class="form-select" [(ngModel)]="filters.city">
+              <option value="">Select City</option>
+              @for (city of cities; track city) {
+                <option [value]="city">{{ city }}</option>
+              }
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="genre" class="form-label">Genre</label>
+            <select id="genre" class="form-select" [(ngModel)]="filters.genre">
+              <option value="">Select Genre</option>
+              @for (genre of genres; track genre) {
+                <option [value]="genre">{{ genre }}</option>
+              }
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="experienceLevel" class="form-label">Experience Level</label>
+            <select id="experienceLevel" class="form-select" [(ngModel)]="filters.experienceLevel">
+              <option value="">Select Level</option>
+              @for (level of experienceLevels; track level) {
+                <option [value]="level">{{ level }}</option>
+              }
+            </select>
+          </div>
+          <button class="btn btn-primary w-100" (click)="applyFilters()">Apply Filters</button>
+        </div>
       </div>
     </div>
-  </form>
-  <div class="row">
-    <div class="col-md-4 mb-4" *ngFor="let artist of artists">
-      <div class="card h-100">
-        <img *ngIf="artist.profile_photo_id" [src]="'/assets/images/' + artist.profile_photo_id" class="card-img-top" alt="Artist Photo">
-        <div class="card-body">
-          <h5 class="card-title">{{ artist.name }}</h5>
-          <p class="card-text">{{ artist.bio }}</p>
-          <p class="card-text"><strong>Género:</strong> {{ artist.genre }}</p>
-        </div>
+
+    <!-- Listado de Artistas -->
+    <div class="col-md-9">
+      <div class="row">
+        @for (artist of filteredArtists; track artist) {
+          <div class="col-md-6 mb-4">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">{{ artist.name }}</h5>
+                <p class="card-text">{{ artist.bio }}</p>
+                <p class="card-text"><strong>City:</strong> {{ artist.city }}</p>
+                <p class="card-text"><strong>Genre:</strong> {{ artist.genre }}</p>
+                <p class="card-text"><strong>Experience Level:</strong> {{ artist.experienceLevel }}</p>
+                <button class="btn btn-primary" (click)="viewDetails(artist)">View Profile</button>
+              </div>
+              <div [id]="'carousel' + artist.id" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                  @for (photo of artist.photos; track photo) {
+                    <div class="carousel-item @if (i === 0) { active }">
+                      <img src="{{ photo.url }}" class="d-block w-100" alt="...">
+                    </div>
+                  }
+                </div>
+                <button class="carousel-control-prev" type="button" [attr.data-bs-target]="'#carousel' + artist.id" data-bs-slide="prev">
+                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" [attr.data-bs-target]="'#carousel' + artist.id" data-bs-slide="next">
+                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Next</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        }
       </div>
     </div>
   </div>

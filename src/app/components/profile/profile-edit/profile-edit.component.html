@@ -1,0 +1,59 @@
+<div class="container mt-5">
+  <div *ngIf="loading" class="text-center">
+    Loading...
+  </div>
+  <div *ngIf="error" class="alert alert-danger">
+    {{ error }}
+  </div>
+  <div *ngIf="!loading && profile" class="edit-profile-card">
+    <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+      <app-profile-photo-upload (fileSelected)="onFileSelected($event)"></app-profile-photo-upload>
+
+      <div class="form-group mb-3">
+        <label for="name" class="form-label">Name</label>
+        <input id="name" formControlName="name" class="form-control" />
+        @if (name?.touched && name?.invalid && name?.hasError('required')) {
+          <div class="text-danger">Name is required</div>
+        }
+      </div>
+
+      <div class="form-group mb-3">
+        <label for="city" class="form-label">City</label>
+        <select id="city" formControlName="city" class="form-control">
+          <option value="">Select City</option>
+          @for (city of cities; track city) {
+            <option [value]="city">{{ city }}</option>
+          }
+        </select>
+        @if (city?.touched && city?.invalid && city?.hasError('required')) {
+          <div class="text-danger">City is required</div>
+        }
+      </div>
+
+      <div class="form-group mb-3">
+        <label for="user_type" class="form-label">User Type</label>
+        <select id="user_type" formControlName="user_type" class="form-control">
+          <option value="">Select Role</option>
+          <option value="artist">Artist</option>
+          <option value="local">Local</option>
+        </select>
+        @if (user_type?.touched && user_type?.invalid && user_type?.hasError('required')) {
+          <div class="text-danger">User type is required</div>
+        }
+      </div>
+
+      <div class="form-group mb-3">
+        <label for="bio" class="form-label">Bio</label>
+        <textarea id="bio" formControlName="bio" class="form-control"></textarea>
+      </div>
+
+      <div class="form-group mb-3">
+        <label for="website" class="form-label">Website</label>
+        <input id="website" formControlName="website" class="form-control" />
+      </div>
+
+      <button type="submit" class="btn btn-primary" [disabled]="profileForm.invalid">Save Changes</button>
+    </form>
+  </div>
+</div>
+

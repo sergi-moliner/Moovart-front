@@ -1,1 +1,72 @@
-<p>local-list works!</p>
+<div class="container mt-5">
+  <div class="row">
+    <!-- Barra Lateral de Filtros -->
+    <div class="col-md-3">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Filters</h5>
+          <div class="mb-3">
+            <label for="search" class="form-label">Search by name</label>
+            <input type="text" class="form-control" id="search" [(ngModel)]="searchTerm">
+          </div>
+          <div class="mb-3">
+            <label for="city" class="form-label">City</label>
+            <select id="city" class="form-select" [(ngModel)]="filters.city">
+              <option value="">Select City</option>
+              @for (city of cities; track city) {
+                <option [value]="city">{{ city }}</option>
+              }
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="minSpace" class="form-label">Min Space (sqm)</label>
+            <input type="number" class="form-control" id="minSpace" [(ngModel)]="filters.minSpace">
+          </div>
+          <div class="mb-3">
+            <label for="maxSpace" class="form-label">Max Space (sqm)</label>
+            <input type="number" class="form-control" id="maxSpace" [(ngModel)]="filters.maxSpace">
+          </div>
+          <button class="btn btn-primary w-100" (click)="applyFilters()">Apply Filters</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Listado de Locales -->
+    <div class="col-md-9">
+      <div class="row">
+        @for (local of filteredLocals; track local) {
+          <div class="col-md-6 mb-4">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">{{ local.name }}</h5>
+                <p class="card-text">{{ local.bio }}</p>
+                <p class="card-text"><strong>City:</strong> {{ local.city }}</p>
+                <p class="card-text"><strong>Exhibition Space:</strong> {{ local.exhibition_space }} sqm</p>
+                <button class="btn btn-primary" (click)="viewDetails(local)">View Profile</button>
+              </div>
+              <div [id]="'carousel' + local.id" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                  <!--@if (localPhotos[local.id]?.length) {
+                    @for (photo of local.photos; track photo) {
+                      <div class="carousel-item @if (i === 0) { active }">
+                        <img src="{{ localPhotos[local.id][i].url }}" class="d-block w-100" alt="...">definir el photoservice para esto
+                      </div>
+                    }
+                  }-->
+                </div>
+                <button class="carousel-control-prev" type="button" [attr.data-bs-target]="'#carousel' + local.id" data-bs-slide="prev">
+                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" [attr.data-bs-target]="'#carousel' + local.id" data-bs-slide="next">
+                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Next</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+</div>

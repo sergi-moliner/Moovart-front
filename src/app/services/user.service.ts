@@ -82,11 +82,6 @@ export class UserService {
     return this.http.post<any>(`${this.apiUrl}/${userId}/uploadProfilePhoto`, formData);
   }
 
-  getCurrentUser(): Observable<User | null> {
-    console.log('Getting current user:', this.currentUser);
-    return of(this.currentUser);
-  }
-
   setUserType(type: 'artist' | 'local'): void {
     if (this.currentUser) {
       this.currentUser.user_type = type;
@@ -96,4 +91,11 @@ export class UserService {
   getUserType(): Observable<'artist' | 'local'> {
     return of(this.currentUser ? this.currentUser.user_type : 'local'); // Defaulting to 'local' if currentUser is null, adjust as necessary
   }
+
+  getCurrentUser(): Observable<User> {
+    return this.http.get<User>(`${this.apiUrl}/profile`);
+  }
+
+
 }
+

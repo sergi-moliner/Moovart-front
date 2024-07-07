@@ -1,5 +1,3 @@
-import { Portfolio } from './portfolio';
-
 export interface Artist {
   id: number;
   userId: number;
@@ -9,9 +7,8 @@ export interface Artist {
   bio: string;
   genre: string;
   experienceLevel: string;
-  contactInfo: { [key: string]: string }; // For storing social media links and other contacts
+  contactInfo: { [key: string]: string };
   profilePhotoId: number;
   featuredWorkPhotoId: number;
   cvUrl: string;
-  portfolios: Portfolio[];
 }

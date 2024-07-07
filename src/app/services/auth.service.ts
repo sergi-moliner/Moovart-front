@@ -70,13 +70,17 @@ export class AuthService {
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.getToken()}`);
     return this.http.get<User>(`${this.baseUrl}/auth/profile`, { headers }).pipe(
       tap(user => {
-        this.profileChanged.emit(user); // Emitir evento
+        this.profileChanged.emit(user);
       })
     );
   }
 
   checkEmailAvailability(email: string): Observable<any> {
     return this.http.get(`${this.baseUrl}/auth/check-email`, { params: { email } });
+  }
+
+  getCurrentUser(): Observable<User> {
+    return this.http.get<User>('/api/current-user'); //cambiar por la ruta correcta
   }
 
 }

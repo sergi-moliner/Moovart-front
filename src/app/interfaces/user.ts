@@ -5,6 +5,9 @@ export interface User {
   password: string;
   city: string;
   user_type: 'artist' | 'local';
+  artists?: Artist[];
+  locals?: Local[];
+  profile_photo_url: string;
 }
 
 export interface Artist extends User {
