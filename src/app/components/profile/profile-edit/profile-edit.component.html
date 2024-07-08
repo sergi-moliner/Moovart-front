@@ -7,7 +7,7 @@
   </div>
   <div *ngIf="!loading && profile" class="edit-profile-card">
     <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
-      <app-profile-photo-upload (fileSelected)="onFileSelected($event)"></app-profile-photo-upload>
+      <app-profile-photo-upload [currentPhotoUrl]="profilePhotoUrl" (fileSelected)="onFileSelected($event)"></app-profile-photo-upload>
 
       <div class="form-group mb-3">
         <label for="name" class="form-label">Name</label>

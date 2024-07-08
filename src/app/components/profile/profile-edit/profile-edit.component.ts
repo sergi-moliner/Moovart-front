@@ -16,7 +16,7 @@ import { ProfilePhotoUploadComponent } from '../profile-photo-upload/profile-pho
 export class ProfileEditComponent implements OnInit {
   profileForm: FormGroup;
   profile: Profile | undefined;
-  profilePhotoUrl: string | ArrayBuffer | null = 'assets/imgs/default-profile-picture.png';
+  profilePhotoUrl: string | null = 'assets/imgs/default-profile-picture.png'; // Inicializamos como string o null
 
   loading = true;
   error = '';
@@ -73,6 +73,11 @@ export class ProfileEditComponent implements OnInit {
 
   onFileSelected(file: File): void {
     this.selectedFile = file;
+    const reader = new FileReader();
+    reader.onload = () => {
+      this.profilePhotoUrl = reader.result as string; // Convertimos el resultado a string
+    };
+    reader.readAsDataURL(file);
   }
 
   onSubmit(): void {

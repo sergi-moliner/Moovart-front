@@ -1,12 +1,13 @@
-/* profile.component.css */
-.profile {
-  text-align: center;
+.profile-photo-preview {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
 }
 
-.profile-picture {
+.profile-photo-preview img {
   width: 150px;
   height: 150px;
   border-radius: 50%;
   object-fit: cover;
-  margin-bottom: 10px;
 }
