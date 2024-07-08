@@ -1,10 +1,9 @@
-<div class="form-group mb-3">
-  <label for="profilePhoto" class="form-label">Profile Photo</label>
+<div class="profile-photo-container">
   <div class="profile-photo-preview">
     <img *ngIf="previewUrl; else currentPhoto" [src]="previewUrl" alt="Preview" />
     <ng-template #currentPhoto>
       <img [src]="currentPhotoUrl" alt="Current Photo" />
     </ng-template>
   </div>
-  <input type="file" id="profilePhoto" (change)="onFileSelected($event)" class="form-control" />
+  <input type="file" id="profilePhoto" (change)="onFileSelected($event)" class="form-control mt-2" />
 </div>

@@ -7,36 +7,42 @@
   </div>
   <div *ngIf="!loading && profile" class="edit-profile-card">
     <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
-      <app-profile-photo-upload [currentPhotoUrl]="profilePhotoUrl" (fileSelected)="onFileSelected($event)"></app-profile-photo-upload>
+      <div class="row">
+        <div class="col-md-8">
+          <div class="form-group mb-3">
+            <label for="name" class="form-label">Name</label>
+            <input id="name" formControlName="name" class="form-control" />
+            <div *ngIf="name?.touched && name?.invalid && name?.hasError('required')" class="text-danger">
+              Name is required
+            </div>
+          </div>
 
-      <div class="form-group mb-3">
-        <label for="name" class="form-label">Name</label>
-        <input id="name" formControlName="name" class="form-control" />
-        <div *ngIf="name?.touched && name?.invalid && name?.hasError('required')" class="text-danger">
-          Name is required
+          <div class="form-group mb-3">
+            <label for="city" class="form-label">City</label>
+            <select id="city" formControlName="city" class="form-control">
+              <option value="">Select City</option>
+              <option *ngFor="let city of cities" [value]="city">{{ city }}</option>
+            </select>
+            <div *ngIf="city?.touched && city?.invalid && city?.hasError('required')" class="text-danger">
+              City is required
+            </div>
+          </div>
+
+          <div class="form-group mb-3">
+            <label for="user_type" class="form-label">User Type</label>
+            <select id="user_type" formControlName="user_type" class="form-control">
+              <option value="">Select Role</option>
+              <option value="artist">Artist</option>
+              <option value="local">Local</option>
+            </select>
+            <div *ngIf="user_type?.touched && user_type?.invalid && user_type?.hasError('required')" class="text-danger">
+              User type is required
+            </div>
+          </div>
         </div>
-      </div>
 
-      <div class="form-group mb-3">
-        <label for="city" class="form-label">City</label>
-        <select id="city" formControlName="city" class="form-control">
-          <option value="">Select City</option>
-          <option *ngFor="let city of cities" [value]="city">{{ city }}</option>
-        </select>
-        <div *ngIf="city?.touched && city?.invalid && city?.hasError('required')" class="text-danger">
-          City is required
-        </div>
-      </div>
-
-      <div class="form-group mb-3">
-        <label for="user_type" class="form-label">User Type</label>
-        <select id="user_type" formControlName="user_type" class="form-control">
-          <option value="">Select Role</option>
-          <option value="artist">Artist</option>
-          <option value="local">Local</option>
-        </select>
-        <div *ngIf="user_type?.touched && user_type?.invalid && user_type?.hasError('required')" class="text-danger">
-          User type is required
+        <div class="col-md-4 text-center">
+          <app-profile-photo-upload [currentPhotoUrl]="profilePhotoUrl" (fileSelected)="onFileSelected($event)"></app-profile-photo-upload>
         </div>
       </div>
 
