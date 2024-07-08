@@ -16,6 +16,8 @@ import { ProfilePhotoUploadComponent } from '../profile-photo-upload/profile-pho
 export class ProfileEditComponent implements OnInit {
   profileForm: FormGroup;
   profile: Profile | undefined;
+  profilePhotoUrl: string | ArrayBuffer | null = 'assets/imgs/default-profile-picture.png';
+
   loading = true;
   error = '';
   cities = ['Barcelona', 'Madrid', 'Valencia', 'Seville', 'Zaragoza'];
@@ -44,6 +46,7 @@ export class ProfileEditComponent implements OnInit {
           next: (data) => {
             this.profile = data;
             this.loading = false;
+            this.profilePhotoUrl = data.profile_photo_url ? `http://localhost:3000${data.profile_photo_url}` : 'assets/imgs/default-profile-picture.png';
             this.populateForm(data);
           },
           error: (err) => {
@@ -81,20 +84,13 @@ export class ProfileEditComponent implements OnInit {
       formData.append('bio', this.profileForm.get('bio')?.value);
       formData.append('website', this.profileForm.get('website')?.value);
 
+      if (this.selectedFile) {
+        formData.append('profile_photo', this.selectedFile);
+      }
+
       this.profileService.updateProfile(this.profile?.user_id || 0, formData).subscribe({
-        next: () => {
-          if (this.selectedFile) {
-            this.profileService.uploadProfilePhoto(this.profile?.user_id || 0, this.selectedFile).subscribe({
-              next: () => {
-                this.router.navigate(['/profile', this.profile?.user_id]);
-              },
-              error: (err) => {
-                this.error = 'Failed to upload profile photo';
-              }
-            });
-          } else {
-            this.router.navigate(['/profile', this.profile?.user_id]);
-          }
+        next: (data) => {
+          this.router.navigate(['/profile', this.profile?.user_id]);
         },
         error: (err) => {
           this.error = 'Failed to update profile';

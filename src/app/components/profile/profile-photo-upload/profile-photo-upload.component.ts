@@ -10,18 +10,11 @@ import { CommonModule } from '@angular/common';
 })
 export class ProfilePhotoUploadComponent {
   @Output() fileSelected = new EventEmitter<File>();
-  profilePhotoUrl: string | ArrayBuffer | null = '';
 
-  onFileChange(event: any): void {
-    const file = (event.target as HTMLInputElement).files?.[0];
+  onFileSelected(event: any): void {
+    const file = event.target.files[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        this.profilePhotoUrl = reader.result;
-        this.fileSelected.emit(file);
-      };
-      reader.readAsDataURL(file);
+      this.fileSelected.emit(file);
     }
   }
 }
-

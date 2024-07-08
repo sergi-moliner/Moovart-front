@@ -15,14 +15,16 @@ export class ProfileService {
     return this.http.get<Profile>(`${this.apiUrl}/${id}`);
   }
 
-  updateProfile(id: number, profile: any): Observable<Profile> {
-    return this.http.put<Profile>(`${this.apiUrl}/${id}`, profile);
+  updateProfile(id: number, profileData: FormData): Observable<any> {
+    return this.http.put(`${this.apiUrl}/${id}`, profileData);
+  }
+  uploadProfilePhoto(file: File): Observable<any> {
+    const formData = new FormData();
+    formData.append('profilePicture', file);
+    return this.http.post<any>(`${this.apiUrl}/upload-profile-picture`, formData);
   }
 
-  uploadProfilePhoto(id: number, file: File): Observable<{ profile_photo_url: string }> {
-    const formData = new FormData();
-    formData.append('profile_photo', file);
-
-    return this.http.put<{ profile_photo_url: string }>(`${this.apiUrl}/${id}/photo`, formData);
+  getProfilePicture(userId: string): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/user/${userId}/profile-picture`);
   }
 }

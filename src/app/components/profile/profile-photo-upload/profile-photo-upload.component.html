@@ -1,7 +1,4 @@
-<div class="form-group mb-3 text-center">
-  <label for="profile_photo" class="form-label">Profile Photo</label>
-  <div class="profile-photo-container mb-3">
-    <img [src]="profilePhotoUrl || 'default-profile-picture.jpg'" class="rounded-circle img-fluid profile-photo-preview" alt="Profile Photo">
-  </div>
-  <input id="profile_photo" type="file" (change)="onFileChange($event)" class="form-control" />
+<div class="form-group mb-3">
+  <label for="profilePhoto" class="form-label">Profile Photo</label>
+  <input type="file" id="profilePhoto" (change)="onFileSelected($event)" class="form-control" />
 </div>
