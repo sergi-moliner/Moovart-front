@@ -1,8 +1,8 @@
 <div class="container mt-5">
   <div class="row">
     <!-- Barra Lateral de Filtros -->
-    <div class="col-md-3">
-      <div class="card">
+    <div class="col-md-3 filters-column">
+      <div class="card filters-card">
         <div class="card-body">
           <h5 class="card-title">Filters</h5>
           <div class="mb-3">
@@ -36,7 +36,7 @@
       <div class="row">
         @for (local of filteredLocals; track local) {
           <div class="col-md-6 mb-4">
-            <div class="card">
+            <div class="card artist-card">
               <div class="card-body">
                 <h5 class="card-title">{{ local.name }}</h5>
                 <p class="card-text">{{ local.bio }}</p>
@@ -46,13 +46,11 @@
               </div>
               <div [id]="'carousel' + local.id" class="carousel slide" data-bs-ride="carousel">
                 <div class="carousel-inner">
-                  <!--@if (localPhotos[local.id]?.length) {
-                    @for (photo of local.photos; track photo) {
-                      <div class="carousel-item @if (i === 0) { active }">
-                        <img src="{{ localPhotos[local.id][i].url }}" class="d-block w-100" alt="...">definir el photoservice para esto
-                      </div>
-                    }
-                  }-->
+                  @for (photo of local.photos; track photo) {
+                    <div class="carousel-item @if (i === 0) { active }">
+                      <img src="{{ photo.url }}" class="d-block w-100" alt="...">
+                    </div>
+                  }
                 </div>
                 <button class="carousel-control-prev" type="button" [attr.data-bs-target]="'#carousel' + local.id" data-bs-slide="prev">
                   <span class="carousel-control-prev-icon" aria-hidden="true"></span>

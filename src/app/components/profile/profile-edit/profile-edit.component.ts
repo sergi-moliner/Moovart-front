@@ -11,17 +11,17 @@ import { ProfilePhotoUploadComponent } from '../profile-photo-upload/profile-pho
   standalone: true,
   imports: [ReactiveFormsModule, FormsModule, CommonModule, ProfilePhotoUploadComponent],
   templateUrl: './profile-edit.component.html',
-  styleUrl: './profile-edit.component.scss'
+  styleUrls: ['./profile-edit.component.scss']
 })
 export class ProfileEditComponent implements OnInit {
   profileForm: FormGroup;
   profile: Profile | undefined;
-  profilePhotoUrl: string | null = 'assets/imgs/default-profile-picture.png'; // Inicializamos como string o null
-
+  profilePhotoUrl: string | null = 'assets/imgs/default-profile-picture.png';
   loading = true;
   error = '';
   cities = ['Barcelona', 'Madrid', 'Valencia', 'Seville', 'Zaragoza'];
   selectedFile: File | null = null;
+  userId: number | null = null;
 
   constructor(
     private route: ActivatedRoute,
@@ -39,33 +39,31 @@ export class ProfileEditComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe(params => {
-      const userId = Number(params.get('id'));
-      if (userId) {
-        this.profileService.getProfile(userId).subscribe({
-          next: (data) => {
-            this.profile = data;
-            this.loading = false;
-            this.profilePhotoUrl = data.profile_photo_url ? `http://localhost:3000${data.profile_photo_url}` : 'assets/imgs/default-profile-picture.png';
-            this.populateForm(data);
-          },
-          error: (err) => {
-            this.error = 'Failed to load profile';
-            this.loading = false;
-          }
-        });
-      } else {
-        this.error = 'Invalid user ID';
-        this.loading = false;
-      }
-    });
+    this.userId = parseInt(localStorage.getItem('user-id') ?? '0', 10);
+    if (this.userId && !isNaN(this.userId)) {
+      this.profileService.getProfile(this.userId).subscribe({
+        next: (data) => {
+          this.profile = data;
+          this.loading = false;
+          this.profilePhotoUrl = data.profile_photo_url ? `http://localhost:3000${data.profile_photo_url}` : 'assets/imgs/default-profile-picture.png';
+          this.populateForm(data);
+        },
+        error: (err) => {
+          this.error = 'Failed to load profile';
+          this.loading = false;
+        }
+      });
+    } else {
+      this.error = 'Invalid user ID';
+      this.loading = false;
+    }
   }
 
   populateForm(profile: Profile): void {
     this.profileForm.patchValue({
-      name: profile.User.name,
-      city: profile.User.city,
-      user_type: profile.User.user_type,
+      name: profile.name,
+      city: profile.city,
+      user_type: profile.user_type,
       bio: profile.bio,
       website: profile.website
     });
@@ -75,13 +73,13 @@ export class ProfileEditComponent implements OnInit {
     this.selectedFile = file;
     const reader = new FileReader();
     reader.onload = () => {
-      this.profilePhotoUrl = reader.result as string; // Convertimos el resultado a string
+      this.profilePhotoUrl = reader.result as string;
     };
     reader.readAsDataURL(file);
   }
 
   onSubmit(): void {
-    if (this.profileForm.valid) {
+    if (this.profileForm.valid && this.userId !== null) {
       const formData = new FormData();
       formData.append('name', this.profileForm.get('name')?.value);
       formData.append('city', this.profileForm.get('city')?.value);
@@ -93,14 +91,17 @@ export class ProfileEditComponent implements OnInit {
         formData.append('profile_photo', this.selectedFile);
       }
 
-      this.profileService.updateProfile(this.profile?.user_id || 0, formData).subscribe({
+      this.profileService.updateProfile(this.userId, formData).subscribe({
         next: (data) => {
-          this.router.navigate(['/profile', this.profile?.user_id]);
+          this.router.navigate(['/profile', this.userId]);
         },
         error: (err) => {
+          console.error('Failed to update profile:', err);
           this.error = 'Failed to update profile';
         }
       });
+    } else {
+      console.error('Form is invalid or userId is null');
     }
   }
 

@@ -10,13 +10,13 @@ import { Router } from '@angular/router';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './profile-view.component.html',
-  styleUrl: './profile-view.component.scss'
+  styleUrls: ['./profile-view.component.scss']
 })
 export class ProfileViewComponent implements OnInit {
-  userId: number = 1; // Reemplaza con el ID del usuario actual
   profile: Profile | undefined;
   loading = true;
   error = '';
+  userId: number | null = null;
 
   constructor(
     private route: ActivatedRoute,
@@ -25,30 +25,31 @@ export class ProfileViewComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe(params => {
-      const userId = Number(params.get('id'));
-      console.log('User ID:', userId); // Log de depuración
-      if (userId) {
-        this.profileService.getProfile(userId).subscribe({
-          next: (data) => {
-            console.log('Profile data received:', data); // Log de depuración
-            this.profile = data;
-            this.loading = false;
-          },
-          error: (err) => {
-            console.error('Failed to load profile:', err); // Log de depuración
-            this.error = 'Failed to load profile';
-            this.loading = false;
-          }
-        });
-      } else {
-        this.error = 'Invalid user ID';
-        this.loading = false;
-      }
-    });
+    this.userId = parseInt(localStorage.getItem('user-id') ?? '0', 10);
+    console.log('User ID de view:', this.userId); // Log de depuración
+
+    if (this.userId && !isNaN(this.userId)) {
+      this.profileService.getProfile(this.userId).subscribe({
+        next: (data) => {
+          console.log('Profile data received:', data); // Log de depuración
+          this.profile = data;
+          this.loading = false;
+        },
+        error: (err) => {
+          console.error('Failed to load profile:', err); // Log de depuración
+          this.error = 'Failed to load profile';
+          this.loading = false;
+        }
+      });
+    } else {
+      this.error = 'Invalid user ID';
+      this.loading = false;
+    }
   }
 
-  editProfile(){
-    this.router.navigate(['profile//edit', this.userId]);
+  editProfile() {
+    if (this.profile && this.userId) {
+      this.router.navigate([`profile/${this.userId}/edit`]);
+    }
   }
 }

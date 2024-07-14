@@ -1,8 +1,8 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
-import { UserService } from '../../services/user.service';
+import { ProfileService } from '../../services/profile.service';
 import { HomeComponent } from '../../components/home/home.component';
 import { Router } from '@angular/router';
 
@@ -17,24 +17,42 @@ import { Router } from '@angular/router';
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss']
 })
-export class NavbarComponent {
-  userId: number = 1; // Reemplaza con el ID del usuario actual
+export class NavbarComponent implements OnInit {
+  userId: number | null = 1;
   isLoggedIn = false;
   opened = false;
   notificationCount = 0;
-  userProfilePicture = '/proyecto/c9deb7fe244e7b4e31be87261c1910d4.jpg'; // Reemplaza con la ruta a una imagen por defecto
+  userProfilePicture = '/assets/imgs/default-profile-picture.png';
   userName = '';
+  profile: any = {};
 
   constructor(
     private authService: AuthService,
-    private userService: UserService,
+    private profileService: ProfileService,
     private router: Router
-  ) {
-    this.isLoggedIn = this.authService.isLoggedIn();
-    if (this.isLoggedIn) {
+  ) {}
 
+  ngOnInit(): void {
+    this.isLoggedIn = this.authService.isLoggedIn();
+    this.userId = parseInt(localStorage.getItem('user-id') ?? '0', 10);
+    console.log('User ID de nabar:', this.userId); // Log de depuración
+    if (this.userId && !isNaN(this.userId)) {
+      this.profileService.getProfile(this.userId).subscribe({
+        next: (data) => {
+          console.log('Profile data received at navbar:', data); // Log de depuración
+          this.profile = data;
+          this.userProfilePicture = data.profile_photo_url ? `http://localhost:3000${data.profile_photo_url}` : '/assets/imgs/default-profile-picture.png';
+          this.userName = data.name;
+        },
+        error: (err) => {
+          console.error('Failed to load profile:', err); // Log de depuración
+        }
+      });
     }
   }
+
+
+
 
   logout() {
     this.authService.logout();
@@ -47,6 +65,8 @@ export class NavbarComponent {
   }
 
   goToProfile() {
-    this.router.navigate(['/profile', this.userId]);
+    if (this.userId !== null) {
+      this.router.navigate(['/profile', this.userId]);
+    }
   }
 }

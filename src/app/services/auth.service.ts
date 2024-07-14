@@ -11,8 +11,9 @@ import { User } from '../interfaces/user';
 export class AuthService {
   private baseUrl = 'http://localhost:3000';
   private tokenKey = 'auth-token';
+  private userIdKey = 'user-id';
   private loggedIn = new BehaviorSubject<boolean>(this.hasToken());
-  profileChanged = new EventEmitter<User | null>(); // Emitir null cuando se desloguee
+  profileChanged = new EventEmitter<User | null>();
 
   loggedIn$ = this.loggedIn.asObservable();
 
@@ -28,10 +29,11 @@ export class AuthService {
   register(user: any): Observable<any> {
     return this.http.post(`${this.baseUrl}/auth/register`, user).pipe(
       tap((res: any) => {
-        this.setToken(res.data.accessToken); // Cambiado a res.data.accessToken
-        this.profileChanged.emit(res.data.user); // Emitir evento
+        this.setToken(res.data.accessToken);
+        this.setUserId(res.data.user.id.toString()); // Guardar ID del usuario como cadena
+        this.profileChanged.emit(res.data.user);
         this.loggedIn.next(true);
-        this.router.navigate(['/']);
+        this.router.navigate(['/profile']);
       })
     );
   }
@@ -39,27 +41,37 @@ export class AuthService {
   login(credentials: any): Observable<any> {
     return this.http.post(`${this.baseUrl}/auth/login`, credentials).pipe(
       tap((res: any) => {
-        this.setToken(res.data.accessToken); // Cambiado a res.data.accessToken
-        this.profileChanged.emit(res.data.user); // Emitir evento
+        this.setToken(res.data.accessToken);
+        this.setUserId(res.data.user.id.toString()); // Guardar ID del usuario como cadena
+        this.profileChanged.emit(res.data.user);
         this.loggedIn.next(true);
-        this.router.navigate(['/']);
+        this.router.navigate(['/home']);
       })
     );
   }
 
   logout(): void {
     localStorage.removeItem(this.tokenKey);
+    localStorage.removeItem(this.userIdKey); // Eliminar ID del usuario
     this.loggedIn.next(false);
-    this.profileChanged.emit(null); // Emitir null
-    this.router.navigate(['/login']);
+    this.profileChanged.emit(null);
+    this.router.navigate(['/home']);
   }
 
   private setToken(token: string): void {
     localStorage.setItem(this.tokenKey, token);
   }
 
+  private setUserId(userId: string): void { // Nuevo método para guardar ID del usuario
+    localStorage.setItem(this.userIdKey, userId);
+  }
+
   getToken(): string | null {
     return localStorage.getItem(this.tokenKey);
+  }
+
+  getUserId(): string | null { // Nuevo método para obtener ID del usuario
+    return localStorage.getItem(this.userIdKey);
   }
 
   isLoggedIn(): boolean {
@@ -80,7 +92,6 @@ export class AuthService {
   }
 
   getCurrentUser(): Observable<User> {
-    return this.http.get<User>('/api/current-user'); //cambiar por la ruta correcta
+    return this.http.get<User>('/api/current-user'); // Cambiar por la ruta correcta
   }
-
 }

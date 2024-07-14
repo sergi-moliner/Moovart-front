@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Profile } from '../interfaces/profile';
+import { tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -12,12 +13,17 @@ export class ProfileService {
   constructor(private http: HttpClient) { }
 
   getProfile(id: number): Observable<Profile> {
-    return this.http.get<Profile>(`${this.apiUrl}/${id}`);
+    return this.http.get<Profile>(`${this.apiUrl}/${id}`).pipe(
+      tap(profile => {
+        console.log('Profile data from service:', profile); // Verificar la estructura de la respuesta
+      })
+    );
   }
 
   updateProfile(id: number, profileData: FormData): Observable<any> {
     return this.http.put(`${this.apiUrl}/${id}`, profileData);
   }
+
   uploadProfilePhoto(file: File): Observable<any> {
     const formData = new FormData();
     formData.append('profilePicture', file);

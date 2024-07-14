@@ -1,8 +1,8 @@
 <div class="container mt-5">
   <div class="row">
     <!-- Barra Lateral de Filtros -->
-    <div class="col-md-3">
-      <div class="card">
+    <div class="col-md-3 filters-column">
+      <div class="card filters-card">
         <div class="card-body">
           <h5 class="card-title">Filters</h5>
           <div class="mb-3">
@@ -46,7 +46,7 @@
       <div class="row">
         @for (artist of filteredArtists; track artist) {
           <div class="col-md-6 mb-4">
-            <div class="card">
+            <div class="card artist-card">
               <div class="card-body">
                 <h5 class="card-title">{{ artist.name }}</h5>
                 <p class="card-text">{{ artist.bio }}</p>

@@ -46,8 +46,10 @@ export class LoginComponent {
     if (this.loginForm.valid) {
       this.authService.login(this.loginForm.value).subscribe(
         response => {
+          const userId = response.data.user.id; // Accede al ID del usuario
+          console.log('User ID:', userId);
           console.log('Login successful', response);
-          this.router.navigate(['/profile']); // Redirigir al perfil del usuario
+          this.router.navigate(['/home']); // Redirigir al perfil del usuario
         },
         error => {
           console.log('Login failed', error);

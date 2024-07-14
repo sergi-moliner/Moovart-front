@@ -1,23 +1,79 @@
 .container {
+  margin-top: 20px;
   max-width: 1200px;
   margin: 0 auto;
 }
 
-.card {
-  border-radius: 10px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+.filters-column {
+  position: relative;
+  left: -40px; // Ajusta este valor según sea necesario para moverlo más hacia la izquierda
 }
 
-.card-title {
-  font-size: 1.25rem;
+.filters-card {
+  background-color: #343a40; // Gris oscuro o escarlata oscuro
+  color: #fff;
+  border: none;
+  width: 300px; // Asegura que ocupe todo el ancho de la columna
+  padding: 20px; // Agrega padding para hacerlo más grande
 }
 
-.carousel-item img {
-  height: 200px;
-  object-fit: cover;
+.filters-card .card-title {
+  font-weight: bold;
+  color: #d6c17f; // Puedes ajustar este color según el estilo de Moovart
 }
 
-.btn-primary {
-  background-color: #b71c1c;
-  border-color: #b71c1c;
+.filters-card .form-label {
+  color: #d6c17f; // Puedes ajustar este color según el estilo de Moovart
+}
+
+.filters-card .form-control,
+.filters-card .form-select {
+  background-color: #495057;
+  color: #fff;
+  border: 1px solid #d6c17f; // Puedes ajustar este color según el estilo de Moovart
+}
+
+.filters-card .btn-primary {
+  background-color: #d6c17f;
+  border: none;
+  color: #343a40;
+  font-weight: bold;
+}
+
+.filters-card .btn-primary:hover {
+  background-color: #bdab6f;
+}
+
+.artist-card {
+  border: none;
+  background-color: #f8f9fa; // Color de fondo para las tarjetas de artistas
+}
+
+.artist-card .card-body {
+  padding: 15px;
+}
+
+.artist-card .card-title {
+  font-weight: bold;
+  color: #343a40;
+}
+
+.artist-card .card-text {
+  color: #6c757d;
+}
+
+.artist-card .btn-primary {
+  background-color: #343a40;
+  border: none;
+  color: #fff;
+}
+
+.artist-card .btn-primary:hover {
+  background-color: #23272b;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  background-color: #343a40; // Puedes ajustar este color según el estilo de Moovart
+  border-radius: 50%;
 }

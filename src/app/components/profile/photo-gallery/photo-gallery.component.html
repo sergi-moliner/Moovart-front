@@ -1,0 +1,12 @@
+<div class="photo-gallery">
+  <h2>Galería de Fotos</h2>
+  <input type="file" (change)="onFileSelected($event)">
+  <button (click)="onUpload()" [disabled]="!selectedFile">Subir Foto</button>
+
+  <div class="photos">
+    <div *ngFor="let photo of photos" class="photo">
+      <img [src]="photo.url" alt="User photo">
+      <button (click)="onDelete(photo.id_photo)">Eliminar</button>
+    </div>
+  </div>
+</div>

@@ -2,10 +2,29 @@
 .navbar {
   margin-bottom: 20px;
 }
-.logo {
-
-  background-size: cover;
+.navbar-logo {
+  max-height: 40px; // Tamaño máximo en altura
+  max-width: 40px;  // Tamaño máximo en anchura
+  width: auto;     // Mantiene la proporción del logo
 }
+
+.navbar-brand {
+  display: flex;
+  align-items: center;
+}
+.logo{
+  width: auto;
+  height: 50px;
+  transform: scale(4.4);
+}
+
+.navbar-toggler-icon {
+  background-size: contain;
+  background-repeat: no-repeat;
+  width: 30px;
+  height: 30px;
+}
+
 
 .sidenav {
   position: fixed;
