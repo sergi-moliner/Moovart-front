@@ -33,4 +33,10 @@ export class ProfileService {
   getProfilePicture(userId: string): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/user/${userId}/profile-picture`);
   }
+
+  uploadPhotos(id: number, photos: File[]): Observable<any> {
+    const formData = new FormData();
+    photos.forEach(photo => formData.append('photos', photo));
+    return this.http.post(`${this.apiUrl}/${id}/photos`, formData);
+  }
 }

@@ -4,11 +4,15 @@ export interface Profile {
   id_profile: number;
   user_id: number;
   name: string;
+  email: string;
   city: string;
   user_type: string;
-  email: string;
-  bio?: string;
-  website?: string;
   profile_photo_url: string;
-  User: User;
+  bio: string;
+  website: string;
+  events: any[]; // Puedes definir una interfaz específica para eventos si lo deseas
+  notifications: any[]; // Puedes definir una interfaz específica para notificaciones si lo deseas
+  artist?: any; // Puedes definir una interfaz específica para artistas si lo deseas
+  local?: any; // Puedes definir una interfaz específica para locales si lo deseas
+  photos?: string[];
 }

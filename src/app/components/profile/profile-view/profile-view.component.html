@@ -12,7 +12,20 @@
       <h1 class="profile-name">{{ profile.name }}</h1>
       <p class="profile-role">{{ profile.user_type }}</p>
       <hr class="profile-separator">
+
+      <!-- Galería de fotos del usuario -->
+      <div class="user-photos">
+        <h3>Galería de Fotos</h3>
+        <input type="file" (change)="onFileSelected($event)" multiple accept="image/*" />
+        <button class="btn btn-primary mt-3" (click)="uploadPhotos()">Subir Fotos</button>
+        <div *ngIf="photoUrls.length > 0" class="photo-gallery mt-4">
+          <div *ngFor="let photoUrl of photoUrls" class="photo">
+            <img [src]="'http://localhost:3000' + photoUrl" alt="User Photo" class="img-fluid">
+          </div>
+        </div>
+      </div>
     </div>
+
     <div class="col-md-4 text-center profile-section bg-beige">
       <div class="profile-photo-container">
         <img [src]="'http://localhost:3000' + (profile.profile_photo_url || '/uploads/default-profile-picture.jpg')" class="rounded-circle profile-photo mb-3" alt="Profile Photo">
