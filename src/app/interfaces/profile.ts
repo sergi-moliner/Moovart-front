@@ -1,7 +1,10 @@
-import { User } from './user';
+export interface Photo {
+  id: number;
+  url: string;
+}
 
 export interface Profile {
-  id_profile: number;
+  id_user: number;
   user_id: number;
   name: string;
   email: string;
@@ -14,5 +17,5 @@ export interface Profile {
   notifications: any[]; // Puedes definir una interfaz específica para notificaciones si lo deseas
   artist?: any; // Puedes definir una interfaz específica para artistas si lo deseas
   local?: any; // Puedes definir una interfaz específica para locales si lo deseas
-  photos?: string[];
+  photos?: Photo[]; // Añade este campo para las fotos
 }

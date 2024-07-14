@@ -39,4 +39,8 @@ export class ProfileService {
     photos.forEach(photo => formData.append('photos', photo));
     return this.http.post(`${this.apiUrl}/${id}/photos`, formData);
   }
+
+  deletePhoto(photoId: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/photo/${photoId}`);
+  }
 }

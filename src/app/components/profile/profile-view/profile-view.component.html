@@ -13,16 +13,36 @@
       <p class="profile-role">{{ profile.user_type }}</p>
       <hr class="profile-separator">
 
-      <!-- Galería de fotos del usuario -->
-      <div class="user-photos">
-        <h3>Galería de Fotos</h3>
-        <input type="file" (change)="onFileSelected($event)" multiple accept="image/*" />
-        <button class="btn btn-primary mt-3" (click)="uploadPhotos()">Subir Fotos</button>
-        <div *ngIf="photoUrls.length > 0" class="photo-gallery mt-4">
-          <div *ngFor="let photoUrl of photoUrls" class="photo">
-            <img [src]="'http://localhost:3000' + photoUrl" alt="User Photo" class="img-fluid">
+      <!-- Galería de fotos del usuario en forma de carrusel -->
+      <div *ngIf="photoUrls.length > 0" [id]="'carousel' + profile.id_user" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+          <button *ngFor="let photo of photoUrls; let i = index" type="button" [attr.data-bs-target]="'#carousel' + profile.id_user" [attr.data-bs-slide-to]="i" [class.active]="i === 0"></button>
+        </div>
+        <div class="carousel-inner">
+          <div *ngFor="let photo of photoUrls; let i = index" class="carousel-item" [ngClass]="{'active': i === 0}">
+            <img [src]="'http://localhost:3000' + photo.url" class="d-block w-100" alt="User Photo" (click)="showPhoto(photo)">
+            <!-- Icono de eliminar foto con tooltip -->
+            <i class="fas fa-trash-alt delete-photo-icon"
+               (click)="confirmDelete(photo.id)"
+               data-bs-toggle="tooltip"
+               data-bs-placement="top"
+               title="Eliminar"></i>
           </div>
         </div>
+        <button class="carousel-control-prev" type="button" [attr.data-bs-target]="'#carousel' + profile.id_user" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" [attr.data-bs-target]="'#carousel' + profile.id_user" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
+
+      <div class="user-photos mt-4">
+        <h3>Subir Nuevas Fotos</h3>
+        <input type="file" (change)="onFileSelected($event)" multiple accept="image/*" />
+        <button class="btn btn-primary mt-3" (click)="uploadPhotos()">Subir Fotos</button>
       </div>
     </div>
 
@@ -42,3 +62,49 @@
     </div>
   </div>
 </div>
+
+<!-- Modal de confirmación -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteModalLabel">Confirmar eliminación</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        ¿Estás seguro de que deseas eliminar esta foto?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-danger" (click)="deletePhoto()">Eliminar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="viewPhotoModal" tabindex="-1" aria-labelledby="viewPhotoModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        @if(profile.user_type === 'artist') {
+          <h5 class="modal-title" id="viewPhotoModalLabel">Fotos del Artista: </h5>
+        } @else {
+          <h5 class="modal-title" id="viewPhotoModalLabel">Fotos del Establecimiento: </h5>
+        }
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body text-center">
+        <img [src]="selectedPhotoUrl" class="img-fluid zoomable" alt="Selected Photo">
+      </div>
+      <div class="modal-footer d-flex justify-content-between">
+        <button type="button" class="btn btn-secondary" (click)="prevPhoto()">
+          <i class="fas fa-arrow-left"></i>
+        </button>
+        <button type="button" class="btn btn-secondary" (click)="nextPhoto()">
+          <i class="fas fa-arrow-right"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
