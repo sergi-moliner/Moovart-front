@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ProfileService } from '../../../services/profile.service';
-import { Profile, Photo } from '../../../interfaces/profile'; // Asegúrate de importar la interfaz Photo
+import { Profile, Photo } from '../../../interfaces/profile';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import * as bootstrap from 'bootstrap';
@@ -15,7 +15,7 @@ import * as bootstrap from 'bootstrap';
   styleUrls: ['./profile-view.component.scss']
 })
 export class ProfileViewComponent implements OnInit, AfterViewInit {
-  profile!: Profile;
+  profile: Profile | null = null;
   loading = true;
   error = '';
   userId: number | null = null;

@@ -48,7 +48,11 @@
 
     <div class="col-md-4 text-center profile-section bg-beige">
       <div class="profile-photo-container">
-        <img [src]="'http://localhost:3000' + (profile.profile_photo_url || '/uploads/default-profile-picture.jpg')" class="rounded-circle profile-photo mb-3" alt="Profile Photo">
+        @if(!profile.profile_photo_url || profile.profile_photo_url === '/uploads/null'){
+          <img src="/assets/imgs/default-profile-picture.png" class="rounded-circle profile-photo mb-3" alt="Profile Photo">
+        } @else {
+          <img [src]="'http://localhost:3000' + (profile.profile_photo_url || '/uploads/default-profile-picture.jpg')" class="rounded-circle profile-photo mb-3" alt="Profile Photo">
+        }
       </div>
       <button class="btn btn-primary mb-4 mt-4" (click)="editProfile()">Edit Profile</button>
       <div class="profile-details">
@@ -86,11 +90,13 @@
   <div class="modal-dialog modal-dialog-centered modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        @if(profile.user_type === 'artist') {
-          <h5 class="modal-title" id="viewPhotoModalLabel">Fotos del Artista: </h5>
-        } @else {
-          <h5 class="modal-title" id="viewPhotoModalLabel">Fotos del Establecimiento: </h5>
-        }
+        @if(profile){
+          @if(profile.user_type === 'artist') {
+            <h5 class="modal-title" id="viewPhotoModalLabel">Fotos del Artista: </h5>
+          } @else {
+            <h5 class="modal-title" id="viewPhotoModalLabel">Fotos del Establecimiento: </h5>
+          }
+       }
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body text-center">

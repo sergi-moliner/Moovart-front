@@ -5,11 +5,13 @@ import { HomeComponent } from './components/home/home.component';
 import { ArtistsListComponent } from './components/artists-list/artists-list.component';
 import { LocalListComponent } from './components/local-list/local-list.component';
 import { EventListComponent } from './components/event-list/event-list.component';
+import { ProfileViewComponent } from './components/profile/profile-view/profile-view.component';
 import { ProfileEditComponent } from './components/profile/profile-edit/profile-edit.component';
-
+import { EventDetailComponent } from './components/event-detail/event-detail.component';
+import { CreateEventComponent } from './components/create-event/create-event.component';
 
 import { AuthGuard } from './guards/auth.guard';
-import { ProfileViewComponent } from './components/profile/profile-view/profile-view.component';
+
 
 
 export const routes: Routes = [
@@ -22,5 +24,8 @@ export const routes: Routes = [
   { path: 'events', component: EventListComponent },
   { path: 'profile/:id', component: ProfileViewComponent, canActivate: [AuthGuard] },
   { path: 'profile/:id/edit', component: ProfileEditComponent, canActivate: [AuthGuard] },
-  { path: '**', redirectTo: '' }
+  { path: 'events', component: EventListComponent },
+  { path: 'events/:id', component: EventDetailComponent },
+  { path: 'new-event', component: CreateEventComponent, canActivate: [AuthGuard] },
+  { path: '**', redirectTo: 'home' }
 ];

@@ -45,7 +45,11 @@ export class ProfileEditComponent implements OnInit {
         next: (data) => {
           this.profile = data;
           this.loading = false;
-          this.profilePhotoUrl = data.profile_photo_url ? `http://localhost:3000${data.profile_photo_url}` : 'assets/imgs/default-profile-picture.png';
+          if (!data.profile_photo_url || data.profile_photo_url === '/uploads/null') {
+            this.profilePhotoUrl = '/assets/imgs/default-profile-picture.png';
+          } else {
+            this.profilePhotoUrl = `http://localhost:3000${data.profile_photo_url}`;
+          }
           this.populateForm(data);
         },
         error: (err) => {

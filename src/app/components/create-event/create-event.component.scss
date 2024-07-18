@@ -1,0 +1,51 @@
+.register-container {
+  max-width: 500px;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.logo {
+  display: block;
+  margin: 0 auto 20px;
+  max-width: 100px;
+}
+
+.form-label {
+  font-weight: bold;
+}
+
+.text-center {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.text-danger {
+  font-size: 0.875em;
+  color: #dc3545;
+}
+
+.btn-primary {
+  background-color: #007bff;
+  border-color: #007bff;
+  &:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+  }
+}
+
+.profile-photo-container {
+  text-align: center;
+}
+
+.profile-photo-preview img {
+  max-height: 200px;
+  display: block;
+  margin: 0 auto 10px;
+}
+
+.mt-2 {
+  margin-top: 0.5rem;
+}

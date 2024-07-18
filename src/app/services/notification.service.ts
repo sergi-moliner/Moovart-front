@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Notification } from '../interfaces/notification';
 
 @Injectable({
   providedIn: 'root'
@@ -11,23 +10,20 @@ export class NotificationService {
 
   constructor(private http: HttpClient) {}
 
-  getNotifications(): Observable<Notification[]> {
-    return this.http.get<Notification[]>(this.apiUrl);
+  createNotification(notification: any): Observable<any> {
+    return this.http.post<any>(this.apiUrl, notification);
   }
 
-  getNotification(id: number): Observable<Notification> {
-    return this.http.get<Notification>(`${this.apiUrl}/${id}`);
+  getNotificationsByUserId(recipient_id: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/user/${recipient_id}`);
   }
 
-  createNotification(notification: Notification): Observable<Notification> {
-    return this.http.post<Notification>(this.apiUrl, notification);
+  markNotificationAsRead(id: string): Observable<any> {
+    return this.http.patch<any>(`${this.apiUrl}/${id}`, { read: true });
   }
 
-  updateNotification(id: number, notification: Notification): Observable<Notification> {
-    return this.http.put<Notification>(`${this.apiUrl}/${id}`, notification);
-  }
-
-  deleteNotification(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  deleteNotification(id: string): Observable<any> {
+    return this.http.delete<any>(`${this.apiUrl}/${id}`);
   }
 }
+

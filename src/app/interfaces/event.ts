@@ -14,7 +14,7 @@ export interface Event {
   quantity?: number;
   color?: string;
   all_day?: boolean;
-  profile_photo_id?: number;
-  confirmed: boolean;
+  profile_photo_url?: string;
+  confirmed?: boolean;
   confirmation_date?: Date;
 }

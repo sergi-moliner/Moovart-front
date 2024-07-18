@@ -5,20 +5,29 @@ import { AuthService } from '../../services/auth.service';
 import { ProfileService } from '../../services/profile.service';
 import { HomeComponent } from '../../components/home/home.component';
 import { Router } from '@angular/router';
-
+import { MatMenuModule } from '@angular/material/menu';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatToolbar } from '@angular/material/toolbar';
+import { MatListModule } from '@angular/material/list';
 @Component({
   selector: 'app-navbar',
   standalone: true,
   imports: [
     CommonModule,
     RouterModule,
-    HomeComponent
+    HomeComponent,
+    MatMenuModule,
+    MatButtonModule,
+    MatIconModule,
+    MatToolbar,
+    MatListModule
   ],
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent implements OnInit {
-  userId: number | null = 1;
+  userId: number | null = null;
   isLoggedIn = false;
   opened = false;
   notificationCount = 0;
@@ -35,33 +44,28 @@ export class NavbarComponent implements OnInit {
   ngOnInit(): void {
     this.isLoggedIn = this.authService.isLoggedIn();
     this.userId = parseInt(localStorage.getItem('user-id') ?? '0', 10);
-    console.log('User ID de nabar:', this.userId); // Log de depuración
     if (this.userId && !isNaN(this.userId)) {
       this.profileService.getProfile(this.userId).subscribe({
         next: (data) => {
-          console.log('Profile data received at navbar:', data); // Log de depuración
           this.profile = data;
-          this.userProfilePicture = data.profile_photo_url ? `http://localhost:3000${data.profile_photo_url}` : '/assets/imgs/default-profile-picture.png';
+          if (!data.profile_photo_url || data.profile_photo_url === '/uploads/null') {
+            this.userProfilePicture = '/assets/imgs/default-profile-picture.png';
+          } else {
+            this.userProfilePicture = `http://localhost:3000${data.profile_photo_url}`;
+          }
           this.userName = data.name;
         },
         error: (err) => {
-          console.error('Failed to load profile:', err); // Log de depuración
+          console.error('Failed to load profile:', err);
         }
       });
     }
   }
 
-
-
-
   logout() {
     this.authService.logout();
     this.isLoggedIn = false;
     this.router.navigate(['/home']);
-  }
-
-  toggleSidenav() {
-    this.opened = !this.opened;
   }
 
   goToProfile() {

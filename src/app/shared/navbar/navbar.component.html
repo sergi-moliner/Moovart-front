@@ -2,88 +2,41 @@
   <a class="navbar-brand logo ml-auto ms-5 mt-2" routerLink="/home">
     <img src="assets/logos/logo_beige.svg" alt="Logo" class="navbar-logo">
   </a>
-
-  <button class="navbar-toggler" type="button" (click)="toggleSidenav()">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-
-  <div class="collapse navbar-collapse" id="navbarNav">
+  <div [ngClass]="{ 'collapse': !opened, 'navbar-collapse': true }" id="navbarNav">
     <ul class="navbar-nav ms-auto">
-      <li *ngIf="!isLoggedIn" class="nav-item">
-        <a class="nav-link" routerLink="/home">Home</a>
+      <li class="nav-item ps-2 pe-2">
+        <a class="nav-link" mat-button routerLink="/home">Home</a>
       </li>
-      <li *ngIf="isLoggedIn" class="nav-item">
-        <a class="nav-link" routerLink="/new-event">New Event</a>
+      <li *ngIf="isLoggedIn" class="nav-item ps-2 pe-2">
+        <a class="nav-link" mat-button routerLink="/new-event">New Event</a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/artists">Artists</a>
+      <li class="nav-item ps-2 pe-2">
+        <a class="nav-link" mat-button routerLink="/artists">Artists</a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/locals">Locals</a>
+      <li class="nav-item ps-2 pe-2">
+        <a class="nav-link" mat-button routerLink="/locals">Locals</a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/events">Events</a>
+      <li class="nav-item ps-2 pe-2">
+        <a class="nav-link" mat-button routerLink="/events">Events</a>
       </li>
-      <li *ngIf="!isLoggedIn" class="nav-item">
-        <a class="nav-link" routerLink="/login">Log in</a>
+      <li *ngIf="!isLoggedIn" class="nav-item ps-2 pe-2">
+        <a class="nav-link" mat-button routerLink="/login">Log in</a>
       </li>
-      <li *ngIf="!isLoggedIn" class="nav-item">
-        <a class="nav-link" routerLink="/register">Register</a>
+      <li *ngIf="!isLoggedIn" class="nav-item ps-2 pe-2">
+        <a class="nav-link" mat-button routerLink="/register">Register</a>
       </li>
-      <li *ngIf="isLoggedIn" class="nav-item">
-        <a class="nav-link" href="#">
-          <i class="fas fa-bell"></i>
-          <span *ngIf="notificationCount > 0" class="badge badge-danger">{{ notificationCount }}</span>
-        </a>
-      </li>
-      <li *ngIf="isLoggedIn" class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="userMenu" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      <li *ngIf="isLoggedIn" class="nav-item ps-2 pe-5">
+        <button mat-button [matMenuTriggerFor]="userMenu" class="d-flex align-items-center ps-2 pe-2">
           <img [src]="userProfilePicture" class="rounded-circle" width="30" height="30" alt="User profile picture">
-          <span class="ms-2">{{ userName }}</span>
-        </a>
-        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenu">
-          <a class="dropdown-item" (click)="goToProfile()">Ver Perfil</a>
-          <a class="dropdown-item" (click)="logout()">Log out</a>
-        </div>
+          <span class="userName">{{ userName }}</span>
+          <mat-icon class="arrow">arrow_drop_down</mat-icon>
+        </button>
+        <mat-menu #userMenu="matMenu">
+          <button mat-menu-item (click)="goToProfile()">Ver Perfil</button>
+          <button mat-menu-item (click)="logout()">Log out</button>
+        </mat-menu>
       </li>
     </ul>
   </div>
 </nav>
-
-<!--
-<div class="sidenav" [class.open]="opened">
-  <ul class="list-group">
-    @if(isLoggedIn) {
-      <li class="list-group-item">
-        <a routerLink="/new-event">New Event</a>
-      </li>
-    }
-    <li class="list-group-item">
-      <a routerLink="/artists">Artists</a>
-    </li>
-    <li class="list-group-item">
-      <a routerLink="/locals">Locals</a>
-    </li>
-    <li class="list-group-item">
-      <a routerLink="/events">Events</a>
-    </li>
-    @if(!isLoggedIn) {
-      <li class="list-group-item">
-        <a routerLink="/login">Log in</a>
-      </li>
-      <li class="list-group-item">
-        <a routerLink="/register">Register</a>
-      </li>
-    }
-    @if(isLoggedIn) {
-      <li class="list-group-item">
-        <a (click)="logout()">Log out</a>
-      </li>
-      <li class="list-group-item">
-        <a routerLink="/profile">Profile</a>
-      </li>
-    }
-  </ul>
-</div>
--->
 <router-outlet></router-outlet>
