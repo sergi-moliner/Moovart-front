@@ -1,5 +1,54 @@
-<div *ngFor="let event of events">
-  <a [routerLink]="['/events', event.id_event]">{{ event.title }}</a>
-  <p>{{ event.description }}</p>
+<div class="container mt-5">
+  <div class="row">
+    <!-- Barra Lateral de Filtros -->
+    <div class="col-md-3 filters-column">
+      <div class="card filters-card">
+        <div class="card-body">
+          <h5 class="card-title">Filters</h5>
+          <div class="mb-3">
+            <label for="search" class="form-label">Search by title</label>
+            <input type="text" class="form-control" id="search" [(ngModel)]="searchTerm">
+          </div>
+          <div class="mb-3">
+            <label for="city" class="form-label">City</label>
+            <select id="city" class="form-select" [(ngModel)]="filters.city">
+              <option value="">Select City</option>
+              <option *ngFor="let city of cities" [value]="city">{{ city }}</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="eventType" class="form-label">Event Type</label>
+            <select id="eventType" class="form-select" [(ngModel)]="filters.eventType">
+              <option value="">Select Type</option>
+              <option value="local">Local</option>
+              <option value="collaboration">Collaboration</option>
+            </select>
+          </div>
+          <button class="btn btn-primary w-100" (click)="applyFilters()">Apply Filters</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Listado de Eventos -->
+    <div class="col-md-9">
+      <div class="row">
+        <div *ngFor="let event of filteredEvents" class="col-md-6 mb-4">
+          <div class="card event-card">
+            <div class="card-body">
+              <h5 class="card-title">{{ event.title }}</h5>
+              <p class="card-text">{{ event.description }}</p>
+              <p class="card-text"><strong>City:</strong> {{ event.city }}</p>
+              <p class="card-text"><strong>Type:</strong> {{ event.event_type }}</p>
+              <p class="card-text"><strong>Opening Date:</strong> {{ event.opening_date | date }}</p>
+              <p *ngIf="event.closing_date" class="card-text"><strong>Closing Date:</strong> {{ event.closing_date | date }}</p>
+              <a [routerLink]="['/events', event.id_event]" class="btn btn-primary">View Event</a>
+            </div>
+            <div *ngIf="event.profile_photo_url" class="event-photo">
+              <img [src]="event.profile_photo_url" class="d-block w-100" alt="{{ event.title }}">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
-dfsasd

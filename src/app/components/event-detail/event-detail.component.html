@@ -1,6 +1,31 @@
-<p>event-detail works!</p>
-<div *ngIf="event">
-  <h2>{{ event.title }}</h2>
-  <p>{{ event.description }}</p>
-  <!-- Agrega más detalles del evento aquí -->
+<div class="container mt-5" *ngIf="event">
+  <div class="row">
+    <div class="col-md-4">
+      <div *ngIf="event.profile_photo_url" class="event-photo">
+        <img [src]="event.profile_photo_url" class="d-block w-100" alt="{{ event.title }}">
+      </div>
+    </div>
+    <div class="col-md-8">
+      <div class="card event-detail-card">
+        <div class="card-body">
+          <h2 class="card-title">{{ event.title }}</h2>
+          <p class="card-text">{{ event.description }}</p>
+          <p class="card-text"><strong>Address:</strong> {{ event.address }}</p>
+          <p class="card-text"><strong>City:</strong> {{ event.city }}</p>
+          <p class="card-text"><strong>Event Type:</strong> {{ event.event_type }}</p>
+          <p class="card-text"><strong>Opening Date:</strong> {{ event.opening_date | date }}</p>
+          <p *ngIf="event.closing_date" class="card-text"><strong>Closing Date:</strong> {{ event.closing_date | date }}</p>
+          <p *ngIf="event.sought_artists" class="card-text"><strong>Sought Artists:</strong> {{ event.sought_artists }}</p>
+          <p *ngIf="event.contact_details" class="card-text"><strong>Contact Details:</strong> {{ event.contact_details }}</p>
+          <p *ngIf="event.optional_details" class="card-text"><strong>Optional Details:</strong> {{ event.optional_details }}</p>
+          <p *ngIf="event.quantity" class="card-text"><strong>Quantity:</strong> {{ event.quantity }}</p>
+          <p *ngIf="event.color" class="card-text"><strong>Color:</strong> {{ event.color }}</p>
+          <p *ngIf="event.all_day" class="card-text"><strong>All Day:</strong> {{ event.all_day ? 'Yes' : 'No' }}</p>
+          <p *ngIf="event.confirmed" class="card-text"><strong>Confirmed:</strong> {{ event.confirmed ? 'Yes' : 'No' }}</p>
+          <p *ngIf="event.confirmation_date" class="card-text"><strong>Confirmation Date:</strong> {{ event.confirmation_date | date }}</p>
+          <button class="btn btn-primary mt-3" (click)="registerInterest()">I'm Interested</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

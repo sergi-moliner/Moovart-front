@@ -1,0 +1,74 @@
+<div class="container mt-5 profile-view-container">
+  <div *ngIf="loading" class="text-center">
+    <div class="spinner-border" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+  <div *ngIf="error" class="alert alert-danger text-center">
+    {{ error }}
+  </div>
+  <div *ngIf="!loading && profile" class="row">
+    <div class="col-md-8">
+      <h1 class="profile-name">{{ profile.name }}</h1>
+      <p class="profile-role">{{ profile.user_type }}</p>
+      <hr class="profile-separator">
+
+      <!-- Galería de fotos del usuario en forma de carrusel -->
+      <div *ngIf="photoUrls.length > 0" [id]="'carousel' + profile.id_user" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+          <button *ngFor="let photo of photoUrls; let i = index" type="button" [attr.data-bs-target]="'#carousel' + profile.id_user" [attr.data-bs-slide-to]="i" [class.active]="i === 0"></button>
+        </div>
+        <div class="carousel-inner">
+          <div *ngFor="let photo of photoUrls; let i = index" class="carousel-item" [ngClass]="{'active': i === 0}">
+            <img [src]="'http://localhost:3000' + photo.url" class="d-block w-100 zoomable" alt="User Photo" (click)="showPhoto(photo)">
+          </div>
+        </div>
+        <button class="carousel-control-prev" type="button" [attr.data-bs-target]="'#carousel' + profile.id_user" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" [attr.data-bs-target]="'#carousel' + profile.id_user" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="col-md-4 text-center profile-section bg-beige">
+      <div class="profile-photo-container">
+        <img [src]="'http://localhost:3000' + (profile.profile_photo_url || '/assets/imgs/default-profile-picture.png')" class="rounded-circle profile-photo mb-3" alt="Profile Photo">
+      </div>
+      <div class="profile-details">
+        <p><strong>Email:</strong> {{ profile.email }}</p>
+        <p><strong>City:</strong> {{ profile.city }}</p>
+        <p *ngIf="profile.bio"><strong>Bio:</strong></p>
+        <p *ngIf="profile.bio">{{ profile.bio }}</p>
+        <p *ngIf="profile.website"><strong>Website:</strong></p>
+        <p *ngIf="profile.website"><a [href]="profile.website" target="_blank">{{ profile.website }}</a></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal para ver la foto en grande -->
+<div class="modal fade" id="viewPhotoModal" tabindex="-1" aria-labelledby="viewPhotoModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="viewPhotoModalLabel">Foto</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body text-center">
+        <img [src]="selectedPhotoUrl" class="img-fluid zoomable" alt="Selected Photo">
+      </div>
+      <div class="modal-footer d-flex justify-content-between">
+        <button type="button" class="btn btn-secondary" (click)="prevPhoto()">
+          <i class="fas fa-arrow-left"></i>
+        </button>
+        <button type="button" class="btn btn-secondary" (click)="nextPhoto()">
+          <i class="fas fa-arrow-right"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

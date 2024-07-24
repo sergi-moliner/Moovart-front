@@ -1,5 +1,5 @@
 export interface Event {
-  id: number;
+  id_event: number;
   user_id: number;
   title: string;
   description?: string;
@@ -17,4 +17,5 @@ export interface Event {
   profile_photo_url?: string;
   confirmed?: boolean;
   confirmation_date?: Date;
+
 }

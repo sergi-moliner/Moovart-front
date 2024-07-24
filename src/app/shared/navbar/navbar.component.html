@@ -7,9 +7,6 @@
       <li class="nav-item ps-2 pe-2">
         <a class="nav-link" mat-button routerLink="/home">Home</a>
       </li>
-      <li *ngIf="isLoggedIn" class="nav-item ps-2 pe-2">
-        <a class="nav-link" mat-button routerLink="/new-event">New Event</a>
-      </li>
       <li class="nav-item ps-2 pe-2">
         <a class="nav-link" mat-button routerLink="/artists">Artists</a>
       </li>
@@ -32,7 +29,9 @@
           <mat-icon class="arrow">arrow_drop_down</mat-icon>
         </button>
         <mat-menu #userMenu="matMenu">
-          <button mat-menu-item (click)="goToProfile()">Ver Perfil</button>
+          <button mat-menu-item routerLink="/new-event">New Event</button>
+          <button mat-menu-item routerLink="/my-events">My events</button>
+          <button mat-menu-item (click)="goToProfile()">Profile</button>
           <button mat-menu-item (click)="logout()">Log out</button>
         </mat-menu>
       </li>

@@ -9,8 +9,10 @@ import { ProfileViewComponent } from './components/profile/profile-view/profile-
 import { ProfileEditComponent } from './components/profile/profile-edit/profile-edit.component';
 import { EventDetailComponent } from './components/event-detail/event-detail.component';
 import { CreateEventComponent } from './components/create-event/create-event.component';
+import { MyEventsComponent } from './components/profile/my-events/my-events.component';
 
 import { AuthGuard } from './guards/auth.guard';
+import { ProfileDetaillComponent } from './components/profile-detaill/profile-detaill.component';
 
 
 
@@ -25,7 +27,10 @@ export const routes: Routes = [
   { path: 'profile/:id', component: ProfileViewComponent, canActivate: [AuthGuard] },
   { path: 'profile/:id/edit', component: ProfileEditComponent, canActivate: [AuthGuard] },
   { path: 'events', component: EventListComponent },
-  { path: 'events/:id', component: EventDetailComponent },
+  { path: 'events/:id', component: EventDetailComponent, canActivate: [AuthGuard] },
   { path: 'new-event', component: CreateEventComponent, canActivate: [AuthGuard] },
+  { path: 'my-events', component: MyEventsComponent, canActivate: [AuthGuard] },
+  { path: 'user', component: ProfileDetaillComponent, canActivate: [AuthGuard] },
+  { path: 'user/:id', component: ProfileDetaillComponent, canActivate: [AuthGuard] },
   { path: '**', redirectTo: 'home' }
 ];

@@ -13,9 +13,9 @@ export interface Profile {
   profile_photo_url: string;
   bio: string;
   website: string;
-  events: any[]; // Puedes definir una interfaz específica para eventos si lo deseas
-  notifications: any[]; // Puedes definir una interfaz específica para notificaciones si lo deseas
-  artist?: any; // Puedes definir una interfaz específica para artistas si lo deseas
-  local?: any; // Puedes definir una interfaz específica para locales si lo deseas
-  photos?: Photo[]; // Añade este campo para las fotos
+  events: any[];
+  notifications: any[];
+  artist?: any;
+  local?: any; 
+  photos?: Photo[];
 }

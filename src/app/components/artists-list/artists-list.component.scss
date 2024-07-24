@@ -75,3 +75,13 @@
   background-color: #343a40; // Puedes ajustar este color según el estilo de Moovart
   border-radius: 50%;
 }
+
+.artist-card {
+  .carousel-inner {
+    img {
+      object-fit: cover;
+      height: 200px; /* Ajusta la altura según tus necesidades */
+      width: 100%;
+    }
+  }
+}

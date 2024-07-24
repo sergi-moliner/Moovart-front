@@ -1,17 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { LocalService } from '../../services/local.service';
-import { Local, User } from '../../interfaces/user';
+import { ProfileService } from '../../services/profile.service';
+import { Profile } from '../../interfaces/profile';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
-
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-local-list',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, RouterModule],
   templateUrl: './local-list.component.html',
-  styleUrl: './local-list.component.scss'
+  styleUrls: ['./local-list.component.scss']
 })
 export class LocalListComponent implements OnInit {
   searchTerm: string = '';
@@ -22,26 +21,24 @@ export class LocalListComponent implements OnInit {
     minSpace: '',
     maxSpace: ''
   };
-  cities: string[] = ['City1', 'City2', 'City3'];
-  locals: any[] = [];
-  filteredLocals: any[] = [];
+  cities: string[] = ['City1', 'City2', 'City3']; // Estas listas deben ser dinámicas si es necesario
+  locals: Profile[] = [];
+  filteredLocals: Profile[] = [];
   localPhotos: { [key: number]: any[] } = {};
 
-  constructor(private localService: LocalService, private router: Router) { }
+  constructor(private profileService: ProfileService, private router: Router) { }
 
   ngOnInit(): void {
-    this.localService.getLocals().subscribe(locals => {
-      this.locals = locals;
-      this.filteredLocals = locals;
+    this.profileService.getProfiles().subscribe(profiles => {
+      this.locals = profiles.filter(profile => profile.user_type === 'local');
+      this.filteredLocals = this.locals;
 
       // Extraer ciudades únicas
-      this.cities = [...new Set(locals.map(local => local.city))];
+      this.cities = [...new Set(this.locals.map(local => local.city))];
 
       // Obtener fotos para cada local
-      locals.forEach(local => {
-        this.localService.getLocalPhotos(local.id).subscribe(photos => {
-          this.localPhotos[local.id] = photos;
-        });
+      this.locals.forEach(local => {
+        this.localPhotos[local.id_user] = local.photos ?? [];
       });
     });
   }
@@ -52,16 +49,15 @@ export class LocalListComponent implements OnInit {
 
   applyFilters(): void {
     this.filteredLocals = this.locals.filter(local => {
-      const exhibitionSpace = local.exhibition_space || 0; // Valor por defecto
+
       return (
-        (!this.filters.city || local.city === this.filters.city) &&
-        (!this.filters.minSpace || exhibitionSpace >= this.filters.minSpace) &&
-        (!this.filters.maxSpace || exhibitionSpace <= this.filters.maxSpace)
+        (!this.filters.city || local.city === this.filters.city)
+
       );
     });
   }
 
-  viewDetails(local: Local): void {
-    this.router.navigate(['/local', local.id]);
+  viewDetails(local: Profile): void {
+    this.router.navigate(['/user', local.id_user]);
   }
 }

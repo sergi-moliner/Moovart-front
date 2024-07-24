@@ -43,7 +43,7 @@ export class CreateEventComponent implements OnInit {
       quantity: [null],
       color: [''],
       all_day: [false],
-      url: [''],
+      profile_photo_url: [''],
       confirmed: [false],
       confirmation_date: ['']
     });
@@ -60,7 +60,11 @@ export class CreateEventComponent implements OnInit {
     console.log('Form submitted');
     if (this.eventForm.valid) {
       console.log('Form is valid');
-      this.uploadFileAndSubmit();
+      if (this.selectedFile) {
+        this.uploadFileAndSubmit();
+      } else {
+        this.submitForm();
+      }
     } else {
       console.log('Form is invalid');
       this.logFormErrors();
@@ -94,24 +98,16 @@ export class CreateEventComponent implements OnInit {
   private uploadFileAndSubmit(): void {
     if (this.selectedFile) {
       console.log('Uploading file...');
-      const formData = new FormData();
-      formData.append('file', this.selectedFile);
-
-      fetch('http://localhost:3000/upload', { // URL de tu backend para subir archivos
-        method: 'POST',
-        body: formData
-      })
-        .then(response => response.json())
-        .then(data => {
+      this.eventService.uploadImage(this.selectedFile).subscribe(
+        data => {
           console.log('File uploaded successfully:', data);
-          this.eventForm.patchValue({ url: data.url });
+          this.eventForm.patchValue({ profile_photo_url: data.url });
           this.submitForm();
-        })
-        .catch(error => {
+        },
+        error => {
           console.error('Error uploading file:', error);
-        });
-    } else {
-      this.submitForm();
+        }
+      );
     }
   }
 

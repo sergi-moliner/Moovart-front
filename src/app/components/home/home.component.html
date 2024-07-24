@@ -1,5 +1,4 @@
 <!-- Hero Section -->
- 
 <section id="hero" class="hero bg-primary text-white text-center py-5">
   <div class="container">
     <div class="hero-content">
@@ -15,10 +14,21 @@
   <div class="container">
     <h2 class="text-center mb-4">Artistas Destacados</h2>
     <div class="row">
-      <!-- Añadir aquí los artistas destacados -->
+      <ng-container *ngFor="let artist of featuredArtists">
+        <div class="col-md-4 mb-4">
+          <div class="card">
+            <img [src]="artist.profile_photo_url ? 'http://localhost:3000' + artist.profile_photo_url : '/assets/imgs/default-profile-picture.png'" class="card-img-top" alt="{{ artist.name }}">
+            <div class="card-body">
+              <h5 class="card-title">{{ artist.name }}</h5>
+              <p class="card-text">{{ artist.bio }}</p>
+              <a [routerLink]="['/user', artist.id_user]" class="btn btn-primary">Ver Perfil</a>
+            </div>
+          </div>
+        </div>
+      </ng-container>
     </div>
     <div class="text-center mt-4">
-      <button class="btn btn-secondary">Ver Más Artistas</button>
+      <button class="btn btn-secondary" [routerLink]="['/artists']">Ver Más Artistas</button>
     </div>
   </div>
 </section>
@@ -28,10 +38,21 @@
   <div class="container">
     <h2 class="text-center mb-4">Eventos Próximos</h2>
     <div class="row">
-      <!-- Añadir aquí los eventos próximos -->
+      <ng-container *ngFor="let event of upcomingEvents">
+        <div class="col-md-6 mb-4">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">{{ event.title }}</h5>
+              <p class="card-text">{{ event.description }}</p>
+              <p class="card-text"><small class="text-muted">{{ event.opening_date | date }} - {{ event.closing_date | date }}</small></p>
+              <a [routerLink]="['/events', event.id_event]" class="btn btn-primary">Ver Detalles</a>
+            </div>
+          </div>
+        </div>
+      </ng-container>
     </div>
     <div class="text-center mt-4">
-      <button class="btn btn-secondary">Ver Todos los Eventos</button>
+      <button class="btn btn-secondary" [routerLink]="['/events']">Ver Todos los Eventos</button>
     </div>
   </div>
 </section>

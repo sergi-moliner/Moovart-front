@@ -1,0 +1,29 @@
+.container {
+  margin-top: 20px;
+}
+
+.event-detail-card {
+  border: none;
+  background-color: #f8f9fa; // Color de fondo para la tarjeta de detalle del evento
+  height: 100%; // Asegura que la tarjeta ocupe todo el alto de la columna
+}
+
+.event-detail-card .card-body {
+  padding: 15px;
+}
+
+.event-detail-card .card-title {
+  font-weight: bold;
+  color: #343a40;
+}
+
+.event-detail-card .card-text {
+  color: #6c757d;
+}
+
+.event-photo img {
+  max-height: 100%; // Asegura que la imagen ocupe todo el alto disponible
+  object-fit: cover;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}

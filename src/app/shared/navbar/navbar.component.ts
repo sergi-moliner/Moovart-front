@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
@@ -10,6 +10,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbar } from '@angular/material/toolbar';
 import { MatListModule } from '@angular/material/list';
+import { Subscription } from 'rxjs';
+
 @Component({
   selector: 'app-navbar',
   standalone: true,
@@ -26,14 +28,14 @@ import { MatListModule } from '@angular/material/list';
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss']
 })
-export class NavbarComponent implements OnInit {
+export class NavbarComponent implements OnInit, OnDestroy {
   userId: number | null = null;
   isLoggedIn = false;
   opened = false;
   notificationCount = 0;
   userProfilePicture = '/assets/imgs/default-profile-picture.png';
   userName = '';
-  profile: any = {};
+  private subscriptions: Subscription = new Subscription();
 
   constructor(
     private authService: AuthService,
@@ -42,18 +44,34 @@ export class NavbarComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.isLoggedIn = this.authService.isLoggedIn();
+    this.subscriptions.add(this.authService.loggedIn$.subscribe(loggedIn => {
+      this.isLoggedIn = loggedIn;
+      if (loggedIn) {
+        this.loadUserProfile();
+      } else {
+        this.resetUserProfile();
+      }
+    }));
+
+    this.subscriptions.add(this.authService.profileChanged.subscribe(user => {
+      if (user) {
+        this.updateUserProfile(user);
+      } else {
+        this.resetUserProfile();
+      }
+    }));
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
+  }
+
+  private loadUserProfile(): void {
     this.userId = parseInt(localStorage.getItem('user-id') ?? '0', 10);
     if (this.userId && !isNaN(this.userId)) {
       this.profileService.getProfile(this.userId).subscribe({
         next: (data) => {
-          this.profile = data;
-          if (!data.profile_photo_url || data.profile_photo_url === '/uploads/null') {
-            this.userProfilePicture = '/assets/imgs/default-profile-picture.png';
-          } else {
-            this.userProfilePicture = `http://localhost:3000${data.profile_photo_url}`;
-          }
-          this.userName = data.name;
+          this.updateUserProfile(data);
         },
         error: (err) => {
           console.error('Failed to load profile:', err);
@@ -62,10 +80,22 @@ export class NavbarComponent implements OnInit {
     }
   }
 
+  private updateUserProfile(data: any): void {
+    this.userId = data.id;
+    this.userProfilePicture = data.profile_photo_url
+      ? `http://localhost:3000${data.profile_photo_url}`
+      : '/assets/imgs/default-profile-picture.png';
+    this.userName = data.name;
+  }
+
+  private resetUserProfile(): void {
+    this.userId = null;
+    this.userProfilePicture = '/assets/imgs/default-profile-picture.png';
+    this.userName = '';
+  }
+
   logout() {
     this.authService.logout();
-    this.isLoggedIn = false;
-    this.router.navigate(['/home']);
   }
 
   goToProfile() {

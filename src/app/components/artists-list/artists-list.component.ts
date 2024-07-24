@@ -1,14 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ArtistService } from '../../services/artist.service';
-import { Artist } from '../../interfaces/user';
+import { ProfileService } from '../../services/profile.service';
+import { Profile } from '../../interfaces/profile';
 import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 
 
 @Component({
   selector: 'app-artists-list',
   standalone: true,
-  imports: [ CommonModule, ReactiveFormsModule, FormsModule ],
+  imports: [ CommonModule, ReactiveFormsModule, FormsModule, RouterModule ],
   templateUrl: './artists-list.component.html',
   styleUrl: './artists-list.component.scss'
 })
@@ -21,22 +22,18 @@ export class ArtistsListComponent implements OnInit {
     genre: '',
     experienceLevel: ''
   };
-  cities: string[] = ['City1', 'City2', 'City3'];
+  cities: string[] = ['City1', 'City2', 'City3']; // Estas listas deben ser dinámicas si es necesario
   genres: string[] = ['Genre1', 'Genre2', 'Genre3'];
   experienceLevels: string[] = ['Beginner', 'Intermediate', 'Expert'];
-  artists: any[] = [
-    { name: 'Artist1', city: 'City1', genre: 'Genre1', experienceLevel: 'Beginner' },
-    { name: 'Artist2', city: 'City2', genre: 'Genre2', experienceLevel: 'Intermediate' },
-    { name: 'Artist3', city: 'City3', genre: 'Genre3', experienceLevel: 'Expert' }
-  ];
-  filteredArtists: any[] = [];
+  artists: Profile[] = [];
+  filteredArtists: Profile[] = [];
 
-  constructor(private artistService: ArtistService) { }
+  constructor(private profileService: ProfileService) { }
 
   ngOnInit(): void {
-    this.artistService.getArtists().subscribe(artists => {
-      this.artists = artists;
-      this.filteredArtists = artists;
+    this.profileService.getProfiles().subscribe(profiles => {
+      this.artists = profiles.filter(profile => profile.user_type === 'artist');
+      this.filteredArtists = this.artists;
     });
   }
 
@@ -47,14 +44,13 @@ export class ArtistsListComponent implements OnInit {
   applyFilters(): void {
     this.filteredArtists = this.artists.filter(artist => {
       return (
-        (!this.filters.city || artist.city === this.filters.city) &&
-        (!this.filters.genre || artist.genre === this.filters.genre) &&
-        (!this.filters.experienceLevel || artist.experienceLevel === this.filters.experienceLevel)
+        (!this.filters.city || artist.city === this.filters.city)
+
       );
     });
   }
 
-  viewDetails(artist: any): void {
-    // Logic to open the modal or navigate to the details page
+  viewDetails(artist: Profile): void {
+
   }
 }

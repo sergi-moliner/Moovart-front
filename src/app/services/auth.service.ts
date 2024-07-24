@@ -26,6 +26,10 @@ export class AuthService {
     return !!localStorage.getItem(this.tokenKey);
   }
 
+  isLoggedIn(): boolean {
+    return this.loggedIn.value;
+  }
+
   register(user: any): Observable<any> {
     return this.http.post(`${this.baseUrl}/auth/register`, user).pipe(
       tap((res: any) => {
@@ -74,9 +78,7 @@ export class AuthService {
     return localStorage.getItem(this.userIdKey);
   }
 
-  isLoggedIn(): boolean {
-    return this.loggedIn.value;
-  }
+
 
   getProfile(): Observable<User> {
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.getToken()}`);

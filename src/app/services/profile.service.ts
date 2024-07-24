@@ -12,6 +12,10 @@ export class ProfileService {
 
   constructor(private http: HttpClient) { }
 
+  getProfiles(): Observable<Profile[]> {
+    return this.http.get<Profile[]>(this.apiUrl);
+  }
+
   getProfile(id: number): Observable<Profile> {
     return this.http.get<Profile>(`${this.apiUrl}/${id}`).pipe(
       tap(profile => {

@@ -1,0 +1,23 @@
+.profile-view-container {
+  .profile-photo {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+  }
+
+  .carousel-item img {
+    cursor: pointer;
+  }
+
+  .zoomable {
+    transition: transform 0.2s;
+  }
+
+  .zoomable.zoomed {
+    transform: scale(1.5);
+  }
+
+  .bg-beige {
+    background-color: #f5f5dc;
+  }
+}

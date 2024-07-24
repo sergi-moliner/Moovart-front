@@ -1,0 +1,51 @@
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-12">
+      <h2>My Events</h2>
+      <div *ngIf="myEvents.length === 0" class="alert alert-info">
+        You have no events.
+      </div>
+      <div *ngFor="let event of myEvents; trackBy: trackByEventId" class="card event-card mb-3">
+        <div class="row g-0">
+          <div class="col-md-4">
+            <img *ngIf="event.profile_photo_url" [src]="event.profile_photo_url" class="img-fluid rounded-start" alt="Event Image">
+            <img *ngIf="!event.profile_photo_url" src="assets/placeholder.jpg" class="img-fluid rounded-start" alt="Placeholder Image">
+          </div>
+          <div class="col-md-8">
+            <div class="card-body d-flex flex-column justify-content-between">
+              <div>
+                <h5 class="card-title">{{ event.title }}</h5>
+                <p class="card-text">{{ event.description }}</p>
+                <p class="card-text"><small class="text-muted">{{ event.opening_date | date }} - {{ event.closing_date | date }}</small></p>
+              </div>
+              <div>
+                <button class="btn btn-primary me-2" (click)="viewEvent(event.id_event)">View Details</button>
+                <button class="btn btn-secondary me-2" (click)="editEvent(event.id_event)">Edit</button>
+                <button class="btn btn-danger" (click)="deleteEvent(event.id_event)">Delete</button>
+              </div>
+              <div *ngIf="event.interestedUsers && event.interestedUsers.length > 0" class="mt-3 interested-users-container">
+                <h6>Interested Users:</h6>
+                <div class="interested-users-wrapper">
+                  <button *ngIf="canScrollLeft(event.id_event)" class="scroll-button left" (click)="scrollLeft(event.id_event)">&lt;</button>
+                  <div class="interested-users" [id]="'interested-users-' + event.id_event">
+                    <a *ngFor="let interest of event.interestedUsers" [routerLink]="['/user', interest.User.id]" class="card interested-user-card">
+                      <div class="card-body d-flex align-items-center">
+                        <img [src]="getUserProfilePicture(interest.User)" class="rounded-circle me-2" width="30" height="30" alt="User profile picture">
+                        <h5 class="card-title mb-0">{{ interest.User.name }}</h5>
+                      </div>
+                    </a>
+                  </div>
+                  <button *ngIf="canScrollRight(event.id_event)" class="scroll-button right" (click)="scrollRight(event.id_event)">&gt;</button>
+                </div>
+              </div>
+              <div *ngIf="event.interestedUsers && event.interestedUsers.length === 0" class="mt-3">
+                <h6>No interested users yet.</h6>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

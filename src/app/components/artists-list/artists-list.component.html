@@ -7,33 +7,33 @@
           <h5 class="card-title">Filters</h5>
           <div class="mb-3">
             <label for="search" class="form-label">Search by name</label>
-            <input type="text" class="form-control" id="search" [(ngModel)]="searchTerm">
+            <input type="text" class="form-control" id="search" [(ngModel)]="searchTerm" (input)="search()">
           </div>
           <div class="mb-3">
             <label for="city" class="form-label">City</label>
-            <select id="city" class="form-select" [(ngModel)]="filters.city">
+            <select id="city" class="form-select" [(ngModel)]="filters.city" (change)="applyFilters()">
               <option value="">Select City</option>
-              @for (city of cities; track city) {
+              <ng-container *ngFor="let city of cities">
                 <option [value]="city">{{ city }}</option>
-              }
+              </ng-container>
             </select>
           </div>
           <div class="mb-3">
             <label for="genre" class="form-label">Genre</label>
-            <select id="genre" class="form-select" [(ngModel)]="filters.genre">
+            <select id="genre" class="form-select" [(ngModel)]="filters.genre" (change)="applyFilters()">
               <option value="">Select Genre</option>
-              @for (genre of genres; track genre) {
+              <ng-container *ngFor="let genre of genres">
                 <option [value]="genre">{{ genre }}</option>
-              }
+              </ng-container>
             </select>
           </div>
           <div class="mb-3">
             <label for="experienceLevel" class="form-label">Experience Level</label>
-            <select id="experienceLevel" class="form-select" [(ngModel)]="filters.experienceLevel">
+            <select id="experienceLevel" class="form-select" [(ngModel)]="filters.experienceLevel" (change)="applyFilters()">
               <option value="">Select Level</option>
-              @for (level of experienceLevels; track level) {
+              <ng-container *ngFor="let level of experienceLevels">
                 <option [value]="level">{{ level }}</option>
-              }
+              </ng-container>
             </select>
           </div>
           <button class="btn btn-primary w-100" (click)="applyFilters()">Apply Filters</button>
@@ -44,37 +44,36 @@
     <!-- Listado de Artistas -->
     <div class="col-md-9">
       <div class="row">
-        @for (artist of filteredArtists; track artist) {
+        <ng-container *ngFor="let artist of filteredArtists">
           <div class="col-md-6 mb-4">
             <div class="card artist-card">
               <div class="card-body">
                 <h5 class="card-title">{{ artist.name }}</h5>
                 <p class="card-text">{{ artist.bio }}</p>
                 <p class="card-text"><strong>City:</strong> {{ artist.city }}</p>
-                <p class="card-text"><strong>Genre:</strong> {{ artist.genre }}</p>
-                <p class="card-text"><strong>Experience Level:</strong> {{ artist.experienceLevel }}</p>
-                <button class="btn btn-primary" (click)="viewDetails(artist)">View Profile</button>
+
+                <button class="btn btn-primary" [routerLink]="['/user', artist.id_user]">View Profile</button>
               </div>
-              <div [id]="'carousel' + artist.id" class="carousel slide" data-bs-ride="carousel">
+              <div *ngIf="artist.photos && artist.photos.length > 0" [id]="'carousel' + artist.id_user" class="carousel slide" data-bs-interval="false">
                 <div class="carousel-inner">
-                  @for (photo of artist.photos; track photo) {
-                    <div class="carousel-item @if (i === 0) { active }">
-                      <img src="{{ photo.url }}" class="d-block w-100" alt="...">
+                  <ng-container *ngFor="let photo of artist.photos; let i = index">
+                    <div class="carousel-item" [ngClass]="{'active': i === 0}">
+                      <img [src]="'http://localhost:3000' + photo.url" class="d-block w-100" alt="...">
                     </div>
-                  }
+                  </ng-container>
                 </div>
-                <button class="carousel-control-prev" type="button" [attr.data-bs-target]="'#carousel' + artist.id" data-bs-slide="prev">
+                <button class="carousel-control-prev" type="button" [attr.data-bs-target]="'#carousel' + artist.id_user" data-bs-slide="prev">
                   <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                   <span class="visually-hidden">Previous</span>
                 </button>
-                <button class="carousel-control-next" type="button" [attr.data-bs-target]="'#carousel' + artist.id" data-bs-slide="next">
+                <button class="carousel-control-next" type="button" [attr.data-bs-target]="'#carousel' + artist.id_user" data-bs-slide="next">
                   <span class="carousel-control-next-icon" aria-hidden="true"></span>
                   <span class="visually-hidden">Next</span>
                 </button>
               </div>
             </div>
           </div>
-        }
+        </ng-container>
       </div>
     </div>
   </div>

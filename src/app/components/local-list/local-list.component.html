@@ -7,15 +7,15 @@
           <h5 class="card-title">Filters</h5>
           <div class="mb-3">
             <label for="search" class="form-label">Search by name</label>
-            <input type="text" class="form-control" id="search" [(ngModel)]="searchTerm">
+            <input type="text" class="form-control" id="search" [(ngModel)]="searchTerm" (input)="search()">
           </div>
           <div class="mb-3">
             <label for="city" class="form-label">City</label>
-            <select id="city" class="form-select" [(ngModel)]="filters.city">
+            <select id="city" class="form-select" [(ngModel)]="filters.city" (change)="applyFilters()">
               <option value="">Select City</option>
-              @for (city of cities; track city) {
+              <ng-container *ngFor="let city of cities">
                 <option [value]="city">{{ city }}</option>
-              }
+              </ng-container>
             </select>
           </div>
           <div class="mb-3">
@@ -34,36 +34,36 @@
     <!-- Listado de Locales -->
     <div class="col-md-9">
       <div class="row">
-        @for (local of filteredLocals; track local) {
+        <ng-container *ngFor="let local of filteredLocals">
           <div class="col-md-6 mb-4">
             <div class="card artist-card">
               <div class="card-body">
                 <h5 class="card-title">{{ local.name }}</h5>
                 <p class="card-text">{{ local.bio }}</p>
                 <p class="card-text"><strong>City:</strong> {{ local.city }}</p>
-                <p class="card-text"><strong>Exhibition Space:</strong> {{ local.exhibition_space }} sqm</p>
-                <button class="btn btn-primary" (click)="viewDetails(local)">View Profile</button>
+
+                <button class="btn btn-primary" [routerLink]="['/user', local.id_user]">View Profile</button>
               </div>
-              <div [id]="'carousel' + local.id" class="carousel slide" data-bs-ride="carousel">
+              <div *ngIf="local.photos && local.photos.length > 0" [id]="'carousel' + local.id_user" class="carousel slide" data-bs-interval="false">
                 <div class="carousel-inner">
-                  @for (photo of local.photos; track photo) {
-                    <div class="carousel-item @if (i === 0) { active }">
-                      <img src="{{ photo.url }}" class="d-block w-100" alt="...">
+                  <ng-container *ngFor="let photo of local.photos; let i = index">
+                    <div class="carousel-item" [ngClass]="{'active': i === 0}">
+                      <img [src]="'http://localhost:3000' + photo.url" class="d-block w-100" alt="...">
                     </div>
-                  }
+                  </ng-container>
                 </div>
-                <button class="carousel-control-prev" type="button" [attr.data-bs-target]="'#carousel' + local.id" data-bs-slide="prev">
+                <button class="carousel-control-prev" type="button" [attr.data-bs-target]="'#carousel' + local.id_user" data-bs-slide="prev">
                   <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                   <span class="visually-hidden">Previous</span>
                 </button>
-                <button class="carousel-control-next" type="button" [attr.data-bs-target]="'#carousel' + local.id" data-bs-slide="next">
+                <button class="carousel-control-next" type="button" [attr.data-bs-target]="'#carousel' + local.id_user" data-bs-slide="next">
                   <span class="carousel-control-next-icon" aria-hidden="true"></span>
                   <span class="visually-hidden">Next</span>
                 </button>
               </div>
             </div>
           </div>
-        }
+        </ng-container>
       </div>
     </div>
   </div>
