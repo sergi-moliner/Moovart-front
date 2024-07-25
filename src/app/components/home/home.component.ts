@@ -31,7 +31,7 @@ import { RouterModule } from '@angular/router';
 export class HomeComponent implements OnInit {
   featuredArtists: Profile[] = [];
   upcomingEvents: Event[] = [];
-  maxFeaturedArtists: number = 3; // Número máximo de artistas destacados a mostrar
+  maxFeaturedArtists: number = 4; // Número máximo de artistas destacados a mostrar
   maxUpcomingEvents: number = 4; // Número máximo de eventos próximos a mostrar
 
   constructor(private artistService: ProfileService, private eventService: EventService) { }

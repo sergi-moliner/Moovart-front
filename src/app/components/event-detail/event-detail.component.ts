@@ -61,7 +61,6 @@ export class EventDetailComponent implements OnInit {
       this.eventService.registerInterest(this.event.id_event, userId).subscribe(
         response => {
           console.log('Interest registered successfully', response);
-          alert('You have registered your interest!');
         },
         error => {
           console.error('Error registering interest', error);

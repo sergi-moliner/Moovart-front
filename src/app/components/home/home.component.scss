@@ -17,11 +17,38 @@ $text-dark: #343a40;
   --text-dark: #{$text-dark};
 }
 
+body {
+  background-color: var(--light-bg-color);
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  cursor: none;
+}
+
 .hero {
-  background: url('../../../assets/imgs/') no-repeat center center;
+  background: url('../../../assets/imgs/2XwidLzQDmfsKwarvNL80u4h40U-desktop.jpg') no-repeat center center;
   background-size: cover;
-  color: #d6c17f;
-  height: 50vh;
+  color: $primary-color;
+  height: 36vh;
+  cursor: none;
+
+  .hero-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    cursor: default;
+  }
+
+  .logo-moovart {
+    max-width: 500px;
+    margin-bottom: 220px;
+    cursor: none;
+  }
+
+  p {
+    font-size: 1.5em;
+    color: $text-light;
+  }
 }
 
 .section {
@@ -31,6 +58,14 @@ $text-dark: #343a40;
 .footer {
   background: $dark-bg-color;
   color: $text-light;
+}
+
+.text-hero {
+  color: #343a40;
+  font-size: 1.5em;
+  margin-bottom: 100px;
+  margin: 40px;
+  cursor: default;
 }
 
 .btn {
@@ -61,6 +96,9 @@ $text-dark: #343a40;
     }
   }
 }
+.no-cursor {
+  cursor: none;
+}
 
 .card {
   border: none;
@@ -87,8 +125,8 @@ $text-dark: #343a40;
   height: 100%;
 }
 
-.event-card{
-  background-color: #ffffff;
+.event-card {
+  background-color: white;
 }
 
 .artist-card .card-body, .event-card .card-body {
