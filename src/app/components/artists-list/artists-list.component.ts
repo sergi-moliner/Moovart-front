@@ -22,7 +22,7 @@ export class ArtistsListComponent implements OnInit {
     genre: '',
     experienceLevel: ''
   };
-  cities: string[] = ['City1', 'City2', 'City3']; // Estas listas deben ser dinámicas si es necesario
+  cities: string[] = ['Barcelona', 'Madrid', 'Valencia', 'Sevilla', 'Zaragoza']; 
   genres: string[] = ['Genre1', 'Genre2', 'Genre3'];
   experienceLevels: string[] = ['Beginner', 'Intermediate', 'Expert'];
   artists: Profile[] = [];

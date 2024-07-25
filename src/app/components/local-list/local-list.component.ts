@@ -21,7 +21,7 @@ export class LocalListComponent implements OnInit {
     minSpace: '',
     maxSpace: ''
   };
-  cities: string[] = ['City1', 'City2', 'City3']; // Estas listas deben ser dinámicas si es necesario
+  cities: string[] = ['Barcelona', 'Madrid', 'Valencia', 'Sevilla', 'Zaragoza'];
   locals: Profile[] = [];
   filteredLocals: Profile[] = [];
   localPhotos: { [key: number]: any[] } = {};
@@ -33,10 +33,8 @@ export class LocalListComponent implements OnInit {
       this.locals = profiles.filter(profile => profile.user_type === 'local');
       this.filteredLocals = this.locals;
 
-      // Extraer ciudades únicas
       this.cities = [...new Set(this.locals.map(local => local.city))];
 
-      // Obtener fotos para cada local
       this.locals.forEach(local => {
         this.localPhotos[local.id_user] = local.photos ?? [];
       });

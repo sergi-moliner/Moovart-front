@@ -1,6 +1,5 @@
-<div class="container mt-5">
+<div class="container-fluid mt-5 pe-5">
   <div class="row">
-    <!-- Barra Lateral de Filtros -->
     <div class="col-md-3 filters-column">
       <div class="card filters-card">
         <div class="card-body">
@@ -24,12 +23,11 @@
               <option value="collaboration">Collaboration</option>
             </select>
           </div>
-          <button class="btn btn-primary w-100" (click)="applyFilters()">Apply Filters</button>
+          <button class="btn btn-primary w-100 mt-3" (click)="applyFilters()">Apply Filters</button>
         </div>
       </div>
     </div>
 
-    <!-- Listado de Eventos -->
     <div class="col-md-9">
       <div class="row">
         <div *ngFor="let event of filteredEvents" class="col-md-6 mb-4">
@@ -41,7 +39,7 @@
               <p class="card-text"><strong>Type:</strong> {{ event.event_type }}</p>
               <p class="card-text"><strong>Opening Date:</strong> {{ event.opening_date | date }}</p>
               <p *ngIf="event.closing_date" class="card-text"><strong>Closing Date:</strong> {{ event.closing_date | date }}</p>
-              <a [routerLink]="['/events', event.id_event]" class="btn btn-primary">View Event</a>
+              <a [routerLink]="['/events', event.id_event]" class="btn btn-primary btn-sm rounded-5">View Event</a>
             </div>
             <div *ngIf="event.profile_photo_url" class="event-photo">
               <img [src]="event.profile_photo_url" class="d-block w-100" alt="{{ event.title }}">

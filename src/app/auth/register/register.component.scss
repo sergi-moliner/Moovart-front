@@ -1,20 +1,105 @@
+// Variables
+$primary-color: #d6c17f;
+$primary-color-light: lighten(#d6c17f, 10%);
+$secondary-color: #6c757d;
+$dark-bg-color: #343a40;
+$light-bg-color: #f8f9fa;
+$button-border-radius: 20px;
+$text-light: #ffffff;
+$text-dark: #343a40;
+$danger-color: #dc3545;
+
+// Global Styles
+:root {
+  --primary-color: #{$primary-color};
+  --secondary-color: #{$secondary-color};
+  --dark-bg-color: #{$dark-bg-color};
+  --light-bg-color: #{$light-bg-color};
+  --text-light: #{$text-light};
+  --text-dark: #{$text-dark};
+  --danger-color: #{$danger-color};
+}
+
 body {
-  background-color: #f8f9fa;
+  background-color: var(--light-bg-color);
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
+
 .register-container {
   max-width: 500px;
   margin: 50px auto;
-  background: #fff;
+  background: #f8f9fa;
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-.register-card {
-  padding: 20px;
-}
-.logo {
-  display: block;
-  margin: 0 auto 20px;
-  width: 150px;
+  text-align: center;
+
+  .logo {
+    display: block;
+    margin: 0 auto 20px;
+    width: 150px;
+  }
+
+  .form-label {
+    font-weight: bold;
+    color: var(--dark-bg-color);
+  }
+
+  .form-control {
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    font-size: 1rem;
+    color: var(--dark-bg-color);
+  }
+
+  .form-check-label {
+    font-weight: normal;
+    color: var(--dark-bg-color);
+
+    a {
+      color: var(--primary-color);
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  .btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    border-radius: $button-border-radius;
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-weight: bold;
+    color: var(--text-light);
+    width: 100%;
+
+    &:disabled {
+      background-color: #cccccc;
+      border-color: #cccccc;
+    }
+
+    &:hover {
+      background-color: $primary-color-light;
+      border-color: $primary-color-light;
+    }
+  }
+
+  .text-danger {
+    font-size: 0.875rem;
+    color: var(--danger-color);
+  }
+
+  .form-group {
+    margin-bottom: 1.5rem;
+  }
+
+  .form-check-input {
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    color: var(--dark-bg-color);
+  }
 }

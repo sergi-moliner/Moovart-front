@@ -4,31 +4,31 @@
 
 .filters-column {
   position: relative;
-  left: -20px; // Ajusta este valor según sea necesario para moverlo más hacia la izquierda
+  left: -20px;
 }
 
 .filters-card {
-  background-color: #343a40; // Gris oscuro o escarlata oscuro
+  background-color: #343a40;
   color: #fff;
   border: none;
-  width: 300px; // Asegura que ocupe todo el ancho de la columna
-  padding: 20px; // Agrega padding para hacerlo más grande
+  width: 300px;
+  padding: 20px;
 }
 
 .filters-card .card-title {
   font-weight: bold;
-  color: #d6c17f; // Puedes ajustar este color según el estilo de Moovart
+  color: #d6c17f;
 }
 
 .filters-card .form-label {
-  color: #d6c17f; // Puedes ajustar este color según el estilo de Moovart
+  color: #d6c17f;
 }
 
 .filters-card .form-control,
 .filters-card .form-select {
   background-color: #495057;
   color: #fff;
-  border: 1px solid #d6c17f; // Puedes ajustar este color según el estilo de Moovart
+  border: 1px solid #d6c17f;
 }
 
 .filters-card .btn-primary {
@@ -44,7 +44,7 @@
 
 .artist-card {
   border: none;
-  background-color: #f8f9fa; // Color de fondo para las tarjetas de artistas
+  background-color: #f8f9fa;
 }
 
 .artist-card .card-body {
@@ -61,9 +61,10 @@
 }
 
 .artist-card .btn-primary {
-  background-color: #343a40;
+  background-color: #6c757d;
   border: none;
   color: #fff;
+  padding: 6px 11px;
 }
 
 .artist-card .btn-primary:hover {
@@ -72,7 +73,7 @@
 
 .carousel-control-prev-icon,
 .carousel-control-next-icon {
-  background-color: #343a40; // Puedes ajustar este color según el estilo de Moovart
+  background-color: #343a40;
   border-radius: 50%;
 }
 
@@ -80,8 +81,9 @@
   .carousel-inner {
     img {
       object-fit: cover;
-      height: 200px; /* Ajusta la altura según tus necesidades */
+      height: 200px;
       width: 100%;
     }
   }
 }
+

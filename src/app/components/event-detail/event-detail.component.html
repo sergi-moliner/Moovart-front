@@ -10,21 +10,42 @@
         <div class="card-body">
           <h2 class="card-title">{{ event.title }}</h2>
           <p class="card-text">{{ event.description }}</p>
-          <p class="card-text"><strong>Address:</strong> {{ event.address }}</p>
-          <p class="card-text"><strong>City:</strong> {{ event.city }}</p>
-          <p class="card-text"><strong>Event Type:</strong> {{ event.event_type }}</p>
-          <p class="card-text"><strong>Opening Date:</strong> {{ event.opening_date | date }}</p>
-          <p *ngIf="event.closing_date" class="card-text"><strong>Closing Date:</strong> {{ event.closing_date | date }}</p>
-          <p *ngIf="event.sought_artists" class="card-text"><strong>Sought Artists:</strong> {{ event.sought_artists }}</p>
-          <p *ngIf="event.contact_details" class="card-text"><strong>Contact Details:</strong> {{ event.contact_details }}</p>
-          <p *ngIf="event.optional_details" class="card-text"><strong>Optional Details:</strong> {{ event.optional_details }}</p>
-          <p *ngIf="event.quantity" class="card-text"><strong>Quantity:</strong> {{ event.quantity }}</p>
-          <p *ngIf="event.color" class="card-text"><strong>Color:</strong> {{ event.color }}</p>
-          <p *ngIf="event.all_day" class="card-text"><strong>All Day:</strong> {{ event.all_day ? 'Yes' : 'No' }}</p>
-          <p *ngIf="event.confirmed" class="card-text"><strong>Confirmed:</strong> {{ event.confirmed ? 'Yes' : 'No' }}</p>
-          <p *ngIf="event.confirmation_date" class="card-text"><strong>Confirmation Date:</strong> {{ event.confirmation_date | date }}</p>
-          <button class="btn btn-primary mt-3" (click)="registerInterest()">I'm Interested</button>
+          <div class="event-details">
+            <p><strong>Address:</strong> {{ event.address }}</p>
+            <p><strong>City:</strong> {{ event.city }}</p>
+            <p><strong>Event Type:</strong> {{ event.event_type }}</p>
+            <p><strong>Opening Date:</strong> {{ event.opening_date | date }}</p>
+            <p *ngIf="event.closing_date"><strong>Closing Date:</strong> {{ event.closing_date | date }}</p>
+            <p *ngIf="event.sought_artists"><strong>Sought Artists:</strong> {{ event.sought_artists }}</p>
+            <p *ngIf="event.contact_details"><strong>Contact Details:</strong> {{ event.contact_details }}</p>
+            <p *ngIf="event.optional_details"><strong>Optional Details:</strong> {{ event.optional_details }}</p>
+            <p *ngIf="event.quantity"><strong>Quantity:</strong> {{ event.quantity }}</p>
+            <p *ngIf="event.color"><strong>Color:</strong> {{ event.color }}</p>
+            <p *ngIf="event.all_day"><strong>All Day:</strong> {{ event.all_day ? 'Yes' : 'No' }}</p>
+            <p *ngIf="event.confirmed"><strong>Confirmed:</strong> {{ event.confirmed ? 'Yes' : 'No' }}</p>
+            <p *ngIf="event.confirmation_date"><strong>Confirmation Date:</strong> {{ event.confirmation_date | date }}</p>
+          </div>
+          <button class="btn btn-primary mt-3" data-bs-toggle="modal" data-bs-target="#interestModal">I'm Interested</button>
         </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="interestModal" tabindex="-1" aria-labelledby="interestModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="interestModalLabel">Confirm Your Interest</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to express interest in this event?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary rounded-5" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary" (click)="registerInterest()" data-bs-dismiss="modal">Yes, I'm Interested</button>
       </div>
     </div>
   </div>

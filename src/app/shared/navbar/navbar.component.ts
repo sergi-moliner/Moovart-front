@@ -44,6 +44,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.userId = parseInt(localStorage.getItem('user-id') ?? '0', 10);
     this.subscriptions.add(this.authService.loggedIn$.subscribe(loggedIn => {
       this.isLoggedIn = loggedIn;
       if (loggedIn) {
@@ -99,8 +100,10 @@ export class NavbarComponent implements OnInit, OnDestroy {
   }
 
   goToProfile() {
-    if (this.userId !== null) {
+    this.userId = parseInt(localStorage.getItem('user-id') ?? '0', 10);
+    if (this.userId) {
       this.router.navigate(['/profile', this.userId]);
     }
   }
+
 }

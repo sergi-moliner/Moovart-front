@@ -1,6 +1,27 @@
+// Variables
+$primary-color: #d6c17f;
+$secondary-color: #6c757d;
+$dark-bg-color: #343a40;
+$light-bg-color: #f8f9fa;
+$button-border-radius: 20px;
+$text-light: #ffffff;
+$text-dark: #343a40;
+
+// Global Styles
+:root {
+  --primary-color: #{$primary-color};
+  --secondary-color: #{$secondary-color};
+  --dark-bg-color: #{$dark-bg-color};
+  --light-bg-color: #{$light-bg-color};
+  --text-light: #{$text-light};
+  --text-dark: #{$text-dark};
+}
+
 .hero {
-  background: url('../../../assets/imgs/2XwidLzQDmfsKwarvNL80u4h40U-desktop.jpg') no-repeat center center;
+  background: url('../../../assets/imgs/') no-repeat center center;
   background-size: cover;
+  color: #d6c17f;
+  height: 50vh;
 }
 
 .section {
@@ -8,5 +29,74 @@
 }
 
 .footer {
-  background: #333;
+  background: $dark-bg-color;
+  color: $text-light;
+}
+
+.btn {
+  border-radius: $button-border-radius;
+  transition: background-color 0.3s, box-shadow 0.3s;
+
+  &-primary {
+    background-color: $primary-color;
+    color: $text-dark;
+    border: 2px solid $primary-color;
+
+    &:hover {
+      background-color: darken($primary-color, 10%);
+      border-color: darken($primary-color, 10%);
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    }
+  }
+
+  &-secondary {
+    background-color: $secondary-color;
+    color: $text-light;
+    border: 2px solid $secondary-color;
+
+    &:hover {
+      background-color: darken($secondary-color, 10%);
+      border-color: darken($secondary-color, 10%);
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    }
+  }
+}
+
+.card {
+  border: none;
+  background-color: $light-bg-color;
+  color: $text-dark;
+  transition: box-shadow 0.3s, transform 0.3s;
+
+  &:hover {
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    transform: translateY(-5px);
+  }
+
+  .card-title {
+    font-weight: bold;
+    color: $text-dark;
+  }
+
+  .card-text {
+    color: $secondary-color;
+  }
+}
+
+.artist-card, .event-card {
+  height: 100%;
+}
+
+.event-card{
+  background-color: #ffffff;
+}
+
+.artist-card .card-body, .event-card .card-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.artist-card .card-body a, .event-card .card-body a {
+  align-self: flex-end;
 }

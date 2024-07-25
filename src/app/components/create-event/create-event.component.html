@@ -1,76 +1,85 @@
-<div class="register-container">
-  <img src="logo.png" alt="Logo" class="logo">
-  <h2 class="text-center">Create Event</h2>
-  <form [formGroup]="eventForm" (ngSubmit)="onSubmit()">
-    <div class="mb-3">
-      <label for="title" class="form-label">Title</label>
-      <input type="text" class="form-control" id="title" formControlName="title" required>
-      <div *ngIf="title?.touched && title?.invalid && title?.hasError('required')" class="text-danger">
-        Title is required
+<div class="container-fluid mt-5 mb-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="register-container card">
+        <h2 class="text-center">Create Event</h2>
+        <form [formGroup]="eventForm" (ngSubmit)="onSubmit()">
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label for="title" class="form-label">Title</label>
+              <input type="text" class="form-control" id="title" formControlName="title" required>
+              <div *ngIf="title?.touched && title?.invalid && title?.hasError('required')" class="text-danger">
+                Title is required
+              </div>
+            </div>
+
+            <div class="col-md-6 mb-3">
+              <label for="city" class="form-label">City</label>
+              <select class="form-select" id="city" formControlName="city" required>
+                <option value="">Select City</option>
+                <option *ngFor="let city of cities" [value]="city">{{ city }}</option>
+              </select>
+              <div *ngIf="city?.touched && city?.invalid && city?.hasError('required')" class="text-danger">
+                City is required
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-12 mb-3">
+              <label for="description" class="form-label">Description</label>
+              <textarea class="form-control" id="description" formControlName="description"></textarea>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label for="opening_date" class="form-label">Opening Date</label>
+              <input type="date" class="form-control" id="opening_date" formControlName="opening_date" required>
+              <div *ngIf="opening_date?.touched && opening_date?.invalid && opening_date?.hasError('required')" class="text-danger">
+                Opening Date is required
+              </div>
+            </div>
+
+            <div class="col-md-6 mb-3">
+              <label for="closing_date" class="form-label">Closing Date</label>
+              <input type="date" class="form-control" id="closing_date" formControlName="closing_date">
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label for="address" class="form-label">Address</label>
+              <input type="text" class="form-control" id="address" formControlName="address">
+            </div>
+
+            <div class="col-md-6 mb-3">
+              <label for="event_type" class="form-label">Event Type</label>
+              <select class="form-select" id="event_type" formControlName="event_type" required>
+                <option value="">Select Type</option>
+                <option value="local">Local</option>
+                <option value="collaboration">Collaboration</option>
+              </select>
+              <div *ngIf="event_type?.touched && event_type?.invalid && event_type?.hasError('required')" class="text-danger">
+                Event type is required
+              </div>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="file" class="form-label">Upload Event Image</label>
+            <div class="profile-photo-container">
+              <div class="profile-photo-preview">
+                <img *ngIf="previewUrl" [src]="previewUrl" alt="Preview" />
+              </div>
+              <input type="file" id="file" (change)="onFileSelected($event)" class="form-control mt-2" />
+            </div>
+          </div>
+          <div class="d-flex justify-content-center">
+            <button class="btn btn-primary w-50" type="submit">Create Event</button>
+          </div>
+        </form>
       </div>
     </div>
-
-    <div class="mb-3">
-      <label for="description" class="form-label">Description</label>
-      <textarea class="form-control" id="description" formControlName="description"></textarea>
-    </div>
-
-    <div class="mb-3">
-      <label for="opening_date" class="form-label">Opening Date</label>
-      <input type="date" class="form-control" id="opening_date" formControlName="opening_date" required>
-      <div *ngIf="opening_date?.touched && opening_date?.invalid && opening_date?.hasError('required')" class="text-danger">
-        Opening Date is required
-      </div>
-    </div>
-
-    <div class="mb-3">
-      <label for="closing_date" class="form-label">Closing Date</label>
-      <input type="date" class="form-control" id="closing_date" formControlName="closing_date">
-    </div>
-
-    <div class="mb-3">
-      <label for="address" class="form-label">Address</label>
-      <input type="text" class="form-control" id="address" formControlName="address">
-    </div>
-
-    <div class="mb-3">
-      <label for="city" class="form-label">City</label>
-      <select class="form-select" id="city" formControlName="city" required>
-        <option value="">Select City</option>
-        <option *ngFor="let city of cities" [value]="city">{{ city }}</option>
-      </select>
-      <div *ngIf="city?.touched && city?.invalid && city?.hasError('required')" class="text-danger">
-        City is required
-      </div>
-    </div>
-
-    <div class="mb-3">
-      <label for="event_type" class="form-label">Event Type</label>
-      <select class="form-select" id="event_type" formControlName="event_type" required>
-        <option value="">Select Type</option>
-        <option value="local">Local</option>
-        <option value="collaboration">Collaboration</option>
-      </select>
-      <div *ngIf="event_type?.touched && event_type?.invalid && event_type?.hasError('required')" class="text-danger">
-        Event type is required
-      </div>
-    </div>
-
-    <div class="mb-3">
-      <label for="file" class="form-label">Upload Event Image</label>
-      <div class="profile-photo-container">
-        <div class="profile-photo-preview">
-          <img *ngIf="previewUrl" [src]="previewUrl" alt="Preview" />
-        </div>
-        <input type="file" id="file" (change)="onFileSelected($event)" class="form-control mt-2" />
-      </div>
-    </div>
-
-    <div class="mb-3 form-check">
-      <input type="checkbox" class="form-check-input" id="confirmed" formControlName="confirmed">
-      <label for="confirmed" class="form-check-label">Confirmed</label>
-    </div>
-
-    <button class="btn btn-primary w-100" type="submit">Create Event</button>
-  </form>
+  </div>
 </div>

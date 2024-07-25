@@ -1,4 +1,4 @@
-<div class="container mt-5 profile-view-container">
+<div class="container mt-5 profile-view-container mb-5">
   <div *ngIf="loading" class="text-center">
     <div class="spinner-border" role="status">
       <span class="visually-hidden">Loading...</span>
@@ -13,7 +13,7 @@
       <p class="profile-role">{{ profile.user_type }}</p>
       <hr class="profile-separator">
 
-      <!-- Galería de fotos del usuario en forma de carrusel -->
+      <!-- User photo gallery in carousel form -->
       <div *ngIf="photoUrls.length > 0" [id]="'carousel' + profile.id_user" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-indicators">
           <button *ngFor="let photo of photoUrls; let i = index" type="button" [attr.data-bs-target]="'#carousel' + profile.id_user" [attr.data-bs-slide-to]="i" [class.active]="i === 0"></button>
@@ -41,10 +41,10 @@
       <div class="profile-details">
         <p><strong>Email:</strong> {{ profile.email }}</p>
         <p><strong>City:</strong> {{ profile.city }}</p>
-        <p *ngIf="profile.bio"><strong>Bio:</strong></p>
-        <p *ngIf="profile.bio">{{ profile.bio }}</p>
         <p *ngIf="profile.website"><strong>Website:</strong></p>
         <p *ngIf="profile.website"><a [href]="profile.website" target="_blank">{{ profile.website }}</a></p>
+        <p *ngIf="profile.bio"><strong>Bio:</strong></p>
+        <p *ngIf="profile.bio">{{ profile.bio }}</p>
       </div>
     </div>
   </div>
@@ -55,7 +55,7 @@
   <div class="modal-dialog modal-dialog-centered modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="viewPhotoModalLabel">Foto</h5>
+        <h5 class="modal-title" id="viewPhotoModalLabel">Photo</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body text-center">
